@@ -374,7 +374,7 @@
 </div>
 
 <script>
-const BLOB = '/.netlify/functions/blob';
+const BLOB = '/api/blob';
 async function blobGet(){try{const r=await fetch(BLOB);if(!r.ok)return null;return await r.json();}catch{return null;}}
 async function blobSet(data,st){
   if(st){st.textContent='Saving…';st.className='modal-st loading';}
