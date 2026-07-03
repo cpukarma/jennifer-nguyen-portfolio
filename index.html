@@ -84,7 +84,7 @@
   body.authed .skill-add{display:flex;}
   body.authed .cert-del{display:inline;}
   .add-btn{display:none;}
-  .edit-btn{display:none !important;}
+  .edit-btn{display:none;}
   .masonry-edit{display:none;}
   body.authed .add-btn{display:flex;}
   body.authed .edit-btn{display:block;}
@@ -117,6 +117,19 @@
   .lb-close:hover{opacity:1;}
   .lb-cap{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);text-align:center;color:#fff;font-size:0.95rem;max-width:600px;}
   .lb-cap a{color:var(--acc2);text-decoration:none;}
+  .lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(11,11,16,0.6);border:1px solid var(--border2);color:#fff;font-size:1.8rem;line-height:1;width:2.6rem;height:2.6rem;border-radius:50%;cursor:pointer;opacity:0.75;transition:opacity .2s;display:none;align-items:center;justify-content:center;}
+  .lb-nav:hover{opacity:1;}
+  .lb-prev{left:1.5rem;}
+  .lb-next{right:1.5rem;}
+  .lightbox.multi .lb-nav{display:flex;}
+  .uiux-mosaic{display:grid;gap:2px;background:var(--border);}
+  .uiux-mosaic.mosaic-1{grid-template-columns:1fr;}
+  .uiux-mosaic.mosaic-2{grid-template-columns:1fr 1fr;}
+  .uiux-mosaic.mosaic-3,.uiux-mosaic.mosaic-4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;}
+  .uiux-mosaic.mosaic-3 .uiux-thumb:first-child{grid-row:1/3;}
+  .uiux-thumb{background-size:cover;background-position:center;cursor:pointer;position:relative;transition:filter .3s;}
+  .uiux-thumb:hover{filter:brightness(1.15);}
+  .uiux-more{position:absolute;inset:0;background:rgba(11,11,16,0.6);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.3rem;}
   .about-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;margin-top:3rem;}
   .about-img img{width:100%;display:block;border:1px solid var(--border);}
   .about-placeholder{width:100%;aspect-ratio:3/4;background:var(--surf2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;}
@@ -178,7 +191,9 @@
 
 <div class="lightbox" id="lightbox">
   <button class="lb-close" onclick="document.getElementById('lightbox').classList.remove('open')">×</button>
+  <button class="lb-nav lb-prev" id="lbPrev" onclick="event.stopPropagation();lbStep(-1)">‹</button>
   <img src="" alt="" id="lbImg">
+  <button class="lb-nav lb-next" id="lbNext" onclick="event.stopPropagation();lbStep(1)">›</button>
   <div class="lb-cap" id="lbCap"></div>
 </div>
 
@@ -194,16 +209,30 @@
   <div class="masonry-grid" id="grid-illustrations"></div>
 </div>
 
-<!-- SKETCHES PAGE -->
-<div class="page" id="page-sketches">
+<!-- GRAPHICS PAGE -->
+<div class="page" id="page-graphics">
   <nav class="page-nav">
-    <span class="page-nav-title">Sketches</span>
+    <span class="page-nav-title">Graphics</span>
     <div class="page-nav-right">
-      <button class="add-btn" onclick="openArtModal('sketches')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Sketch</button>
-      <button class="back-btn" onclick="closePage('page-sketches')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>Back</button>
+      <button class="add-btn" onclick="openArtModal('graphics')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Graphic</button>
+      <button class="back-btn" onclick="closePage('page-graphics')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>Back</button>
     </div>
   </nav>
-  <div class="masonry-grid" id="grid-sketches"></div>
+  <div class="masonry-grid" id="grid-graphics"></div>
+</div>
+
+<!-- UI/UX PAGE -->
+<div class="page" id="page-uiux">
+  <nav class="page-nav">
+    <span class="page-nav-title">UI/UX</span>
+    <div class="page-nav-right">
+      <button class="add-btn" onclick="openUiuxModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add UI/UX Project</button>
+      <button class="back-btn" onclick="closePage('page-uiux')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>Back</button>
+    </div>
+  </nav>
+  <div class="page-content">
+    <div class="work-grid" id="grid-uiux"></div>
+  </div>
 </div>
 
 <!-- PROJECTS PAGE -->
@@ -261,7 +290,8 @@
   <ul class="nav-links">
     <li><button class="nav-btn" onclick="openPage('page-gallery')">Illustration Gallery</button></li>
     <li><button class="nav-btn" onclick="openPage('page-projects')">Projects</button></li>
-    <li><button class="nav-btn" onclick="openPage('page-sketches')">Sketches</button></li>
+    <li><button class="nav-btn" onclick="openPage('page-graphics')">Graphics</button></li>
+    <li><button class="nav-btn" onclick="openPage('page-uiux')">UI/UX</button></li>
     <li><button class="nav-btn" onclick="openPage('page-about')">About</button></li>
   </ul>
 </nav>
@@ -335,6 +365,22 @@
   </div>
 </div>
 
+<!-- UIUX MODAL -->
+<div class="modal-ov" id="uiuxMov">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal('uiuxMov')">×</button>
+    <h2 class="modal-title" id="uiuxMTitle">Add UI/UX Project</h2>
+    <div class="field"><label>Title *</label><input type="text" id="um-title" placeholder="Project name"></div>
+    <div class="field"><label>Tag / Category</label><input type="text" id="um-tag" placeholder="e.g. Mobile App · Figma"></div>
+    <div class="field"><label>Description *</label><textarea id="um-desc" placeholder="Short description…"></textarea></div>
+    <div class="field"><label>Design Images (one URL per line) *</label><textarea id="um-images" placeholder="https://…&#10;https://…&#10;https://…" style="min-height:110px;"></textarea></div>
+    <div class="field"><label>Project Link URL</label><input type="url" id="um-link" placeholder="https://…"></div>
+    <div class="field"><label>Stat / Callout</label><input type="text" id="um-stat" placeholder="e.g. Figma prototype ↗"></div>
+    <div class="modal-actions" id="uiuxMActions"><button class="btn-save" id="uiuxMSave">Save &amp; Publish</button></div>
+    <div class="modal-st" id="uiuxMSt"></div>
+  </div>
+</div>
+
 <!-- ART MODAL -->
 <div class="modal-ov" id="artMov">
   <div class="modal">
@@ -392,7 +438,7 @@ const DEFAULTS={
     {title:'BitterSuite',tag:'WEBTOON Canvas · Comics',desc:'Original LGBTQIA+ romance comic series on WEBTOON Canvas — amassing 2.5k+ views and 100+ readers within 4 months of release. New episodes every other Friday.',thumb:'',link:'https://www.webtoons.com/en/canvas/bittersuite/list?title_no=1086090',stat:'2.5k+ views · 100+ readers ↗',bgClass:'wt-bg'}
   ],
   tech:[{title:'AquaBoarding',tag:'Hackathon · SaaS',desc:'Reimagining the onboarding process to be as seamlessly and efficiently as possible for all businesses.',thumb:'https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/617/572/datas/gallery.jpg',link:'https://devpost.com/software/aquaboarding',stat:'View on Devpost ↗',bgClass:'tech-bg'}],
-  illustrations:[],sketches:[],
+  illustrations:[],graphics:[],uiux:[],
   skills:{Creative:['Digital Illustration','3D Modeling','Clip Studio Paint','Adobe Photoshop','Comic / Webtoon','Character Art','Game Art'],Technical:['Java','Visual Studio','Visual Basic','Microsoft 365','Project Management'],Interpersonal:['Customer Service','Relationship Building','Active Listening','Operations','Team Leadership']},
   certs:[{title:'Building Better Relationships through Listening and Validation',issuer:'LinkedIn',date:'Aug 2025'},{title:'Managing Projects with Microsoft 365',issuer:'LinkedIn',date:'Jun 2025'}],
   about:{img:'',text:''}
@@ -400,7 +446,7 @@ const DEFAULTS={
 let D=JSON.parse(JSON.stringify(DEFAULTS));
 
 async function loadData(){const s=await blobGet();if(s&&(s.creative||s.skills))D=Object.assign(JSON.parse(JSON.stringify(DEFAULTS)),s);renderAll();}
-function renderAll(){renderProjects('creative');renderProjects('tech');renderMasonry('illustrations');renderMasonry('sketches');renderSkills();renderCerts();renderAbout();}
+function renderAll(){renderProjects('creative');renderProjects('tech');renderMasonry('illustrations');renderMasonry('graphics');renderUiux();renderSkills();renderCerts();renderAbout();}
 
 function openPage(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
 function closePage(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
@@ -432,6 +478,64 @@ document.getElementById('projMSave').onclick=async()=>{
   if(idx===null)D[sec].push(proj);else D[sec][idx]=proj;
   const ok=await blobSet(D,st);if(ok){renderProjects(sec);setTimeout(()=>closeModal('projMov'),1400);}
 };
+
+function uiuxCardHTML(p,i){
+  const imgs=(p.images||[]).slice(0,4);
+  const extra=(p.images||[]).length>4?(p.images.length-4):0;
+  const mosaic=imgs.length?imgs.map((url,k)=>`<div class="uiux-thumb" style="background-image:url('${url}')" onclick="openUiuxLB(${i},${k})">${extra&&k===imgs.length-1?`<span class="uiux-more">+${extra}</span>`:''}</div>`).join(''):`<div class="uiux-thumb" style="background:var(--surf2);"></div>`;
+  return`<div class="work-wrap"><button class="edit-btn" onclick="openUiuxModal(${i})">Edit</button>
+    <div class="work-card" style="cursor:default;">
+      <div class="work-img uiux-mosaic mosaic-${Math.max(imgs.length,1)}">${mosaic}</div>
+      <div class="work-body">
+        ${p.tag?`<span class="work-tag" style="position:static;display:inline-block;margin-bottom:0.6rem;">${p.tag}</span>`:''}
+        <h3 class="work-title">${p.title}</h3>
+        <p class="work-desc">${p.desc}</p>
+        ${p.link?`<a href="${p.link}" target="_blank" rel="noopener" class="work-stat">${p.stat||'View Project ↗'}</a>`:(p.stat?`<span class="work-stat">${p.stat}</span>`:'')}
+      </div>
+    </div>
+  </div>`;
+}
+function renderUiux(){const el=document.getElementById('grid-uiux');if(!el)return;el.innerHTML=(D.uiux||[]).length?D.uiux.map((p,i)=>uiuxCardHTML(p,i)).join(''):`<div style="color:var(--ink3);padding:2rem;grid-column:1/-1;">No UI/UX projects yet.</div>`;}
+
+let uState={idx:null};
+function openUiuxModal(idx=null){
+  uState={idx};const isE=idx!==null;
+  document.getElementById('uiuxMTitle').textContent=isE?'Edit UI/UX Project':'Add UI/UX Project';
+  const st=document.getElementById('uiuxMSt');st.textContent='';st.className='modal-st';
+  const p=isE?D.uiux[idx]:{};
+  document.getElementById('um-title').value=p.title||'';document.getElementById('um-tag').value=p.tag||'';
+  document.getElementById('um-desc').value=p.desc||'';document.getElementById('um-images').value=(p.images||[]).join('\n');
+  document.getElementById('um-link').value=p.link||'';document.getElementById('um-stat').value=p.stat||'';
+  const act=document.getElementById('uiuxMActions');const ex=act.querySelector('.btn-del');if(ex)ex.remove();
+  if(isE){const del=document.createElement('button');del.className='btn-del';del.textContent='Delete';del.onclick=async()=>{D.uiux.splice(idx,1);const ok=await blobSet(D,st);if(ok){closeModal('uiuxMov');renderUiux();}};act.appendChild(del);}
+  document.getElementById('uiuxMov').classList.add('open');
+}
+document.getElementById('uiuxMSave').onclick=async()=>{
+  const title=document.getElementById('um-title').value.trim(),desc=document.getElementById('um-desc').value.trim(),st=document.getElementById('uiuxMSt');
+  const images=document.getElementById('um-images').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  if(!title||!desc){st.textContent='Title and description required.';st.className='modal-st err';return;}
+  if(!images.length){st.textContent='At least one image URL required.';st.className='modal-st err';return;}
+  const{idx}=uState;
+  const proj={title,desc,images,tag:document.getElementById('um-tag').value.trim(),link:document.getElementById('um-link').value.trim(),stat:document.getElementById('um-stat').value.trim()};
+  if(!D.uiux)D.uiux=[];if(idx===null)D.uiux.push(proj);else D.uiux[idx]=proj;
+  const ok=await blobSet(D,st);if(ok){renderUiux();setTimeout(()=>closeModal('uiuxMov'),1400);}
+};
+
+let lbState={images:[],idx:0};
+function openUiuxLB(projIdx,imgIdx){
+  const p=(D.uiux||[])[projIdx];if(!p||!p.images||!p.images.length)return;
+  lbState={images:p.images,idx:imgIdx};
+  const lb=document.getElementById('lightbox');
+  lb.classList.toggle('multi',lbState.images.length>1);
+  document.getElementById('lbImg').src=lbState.images[lbState.idx];
+  document.getElementById('lbCap').innerHTML=(p.caption||'')+(p.link?` <br><a href="${p.link}" target="_blank">View ↗</a>`:'');
+  lb.classList.add('open');
+}
+function lbStep(dir){
+  if(!lbState.images.length)return;
+  lbState.idx=(lbState.idx+dir+lbState.images.length)%lbState.images.length;
+  document.getElementById('lbImg').src=lbState.images[lbState.idx];
+}
 
 function mItem(item,col,i){
   return`<div class="masonry-item" onclick="openLB('${col}',${i})"><img src="${item.url}" alt="${item.caption||''}" loading="lazy"><div class="masonry-ov">${item.caption?`<div class="masonry-cap">${item.caption}</div>`:''} ${item.link?`<a class="masonry-link" href="${item.link}" target="_blank" rel="noopener" onclick="event.stopPropagation()">View ↗</a>`:''}<button class="masonry-edit" onclick="event.stopPropagation();openArtModal('${col}',${i})">Edit</button></div></div>`;
@@ -507,7 +611,7 @@ document.getElementById('aboutMSave').onclick=async()=>{
 };
 
 function closeModal(id){document.getElementById(id).classList.remove('open');}
-['projMov','artMov','certMov','aboutMov'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)closeModal(id);}));
+['projMov','artMov','certMov','aboutMov','uiuxMov'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)closeModal(id);}));
 
 // PASSWORD PROTECTION
 const PASS='sonowofu1234';
@@ -534,6 +638,7 @@ document.querySelector('.nav-logo').addEventListener('click',function(e){
   }
 });
 const _oPM=openProjectModal; openProjectModal=function(sec,idx=null){requireAuth(()=>_oPM(sec,idx));};
+const _oUM=openUiuxModal; openUiuxModal=function(idx=null){requireAuth(()=>_oUM(idx));};
 const _oAM=openArtModal; openArtModal=function(col,idx=null){requireAuth(()=>_oAM(col,idx));};
 const _oCM=openCertModal; openCertModal=function(idx=null){requireAuth(()=>_oCM(idx));};
 const _oAbM=openAboutModal; openAboutModal=function(){requireAuth(()=>_oAbM());};
