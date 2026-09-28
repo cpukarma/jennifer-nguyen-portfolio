@@ -238,6 +238,8 @@
   .page-links { display: flex; flex-wrap: wrap; gap: 16px; }
   .soon { color: var(--lavender-muted); font-size: 15px; }
   .card { position: relative; }
+  .about-photo { width: 100%; max-width: 240px; aspect-ratio: 4 / 5; border-radius: var(--radius-lg); overflow: hidden; background: var(--space-raised); }
+  .about-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .thumb.fit img { object-fit: contain; }
   .art { min-height: 120px; }
   .lb-links { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -508,6 +510,7 @@
       lead: "I'm a Pacific Northwest native studying Business Administration with a concentration in Management Information Systems. I'm drawn to the space where people, visuals and data meet: figuring out what someone needs, sketching it, and checking whether it worked.",
       body: "Outside class I run social media and communications for STARS, UW Bothell's student academic success program, and lead its hackathons and community events. I also serve as treasurer of the Interaction Design Association (IxDA) at UW Bothell.",
       links: [{ label: "ArtStation", url: "https://www.artstation.com/heykarmix" }],
+      photo: "",
       resume: "resume.pdf",
       email: "jennifernguyen0813@gmail.com",
       facts: [
@@ -550,6 +553,7 @@
   const slug = t => (String(t || "item").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "item") + "-" + Math.random().toString(36).slice(2, 6);
   const img = (src, alt, extra) => { const s = safeUrl(src, true); return s ? h("img", Object.assign({ src: s, alt: alt || "", loading: "lazy" }, extra || {})) : null; };
   function toast(msg, err) {
+    document.querySelectorAll(".toast").forEach(x => x.remove());
     const t = h("div", { class: "toast" + (err ? " err" : ""), role: "status" }, msg);
     document.body.append(t); setTimeout(() => t.remove(), err ? 5000 : 2600);
   }
@@ -745,6 +749,7 @@
           ...paragraphs(a.lead, "lede"), ...paragraphs(a.body, "muted"),
           links.length ? h("div", { class: "actions" }, links.map(l => h("a", { class: "link", href: safeUrl(l.url), target: "_blank", rel: "noopener" }, h("span", { class: "badge g", html: ARROW }), l.label || l.url))) : null),
         h("div", { class: "about-side" },
+          img(a.photo, "Jennifer Nguyen") ? h("div", { class: "about-photo" }, img(a.photo, "Jennifer Nguyen")) : null,
           resume ? h("a", { class: "resume", href: resume, target: "_blank", rel: "noopener" },
             h("span", { class: "resume-doc", "aria-hidden": "true", html: "<span></span><span></span><span></span><span></span>" }),
             h("span", { class: "resume-text" }, h("span", { class: "tag" }, "Resume · PDF"), h("span", { class: "resume-title" }, "View my resume"), h("span", { class: "small muted" }, "Opens in a new tab")),
@@ -917,6 +922,7 @@
     { k: "labels", t: "list", label: "Moon names", item: [{ k: "label", t: "text", label: "Name" }], name: "label", fixed: true },
   ];
   const ABOUT_SCHEMA = [
+    { k: "photo", t: "image", label: "Photo of you", hint: "A portrait works best. It shows above your resume." },
     { k: "lead", t: "textarea", label: "Intro paragraph" },
     { k: "body", t: "textarea", label: "More about you" },
     { k: "links", t: "list", label: "Links", item: LINK_ITEM, add: "Add link", name: "label" },
