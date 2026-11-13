@@ -1,0 +1,1602 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jennifer Nguyen's Portfolio</title>
+<meta name="description" content="Portfolio of Jennifer Nguyen: UI/UX case studies, leadership, illustration and design.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap">
+<style>
+  :root {
+    color-scheme: dark;
+    --space: #29233d;
+    --space-raised: #342d4c;
+    --lavender: #dacbf5;
+    --lavender-muted: #b3a7d1;
+    --gold: #f4b550;
+    --hairline: #4a4266;
+    --on-fill: #29233d;
+    --radius-sm: 10px;
+    --radius-lg: 24px;
+    --font: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --nav-h: 112px;
+  }
+  html, body { height: 100%; }
+  body {
+    margin: 0; background: var(--space); color: var(--lavender);
+    font-family: var(--font); font-size: 17px; line-height: 1.65;
+    overflow: hidden; -webkit-font-smoothing: antialiased;
+  }
+  #sky { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  #bigmoon { position: fixed; top: 7vh; right: 6vw; width: min(34vw, 340px); height: auto; opacity: .2; pointer-events: none; will-change: transform; }
+  .app { position: relative; height: 100%; display: grid; grid-template-rows: auto 1fr auto; grid-template-columns: minmax(0, 1fr); }
+
+  /* top bar */
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px clamp(16px, 4vw, 48px) 0; position: relative; z-index: 2; }
+  .mark { font-weight: 600; letter-spacing: -.01em; font-size: 18px; color: var(--lavender); text-decoration: none; background: none; border: 0; padding: 0; font-family: inherit; cursor: pointer; }
+  .mark { display: inline-flex; align-items: center; gap: 10px; }
+  .logo { width: 32px; height: 32px; flex: none; transition: transform .4s ease; }
+  .mark:hover .logo { transform: translate(3px, -3px); }
+
+  /* stage + panels */
+  .stage { position: relative; overflow: hidden; z-index: 1; }
+  .track { display: flex; height: 100%; will-change: transform; }
+  .panel { flex: 0 0 100%; height: 100%; overflow-y: auto; overflow-x: hidden; box-sizing: border-box; padding-block: clamp(24px, 6vh, 64px) 32px; padding-inline: clamp(16px, 4vw, 48px); }
+  .inner { max-width: 1040px; margin: 0 auto; display: grid; gap: 24px; }
+  .panel[aria-hidden="true"] { visibility: hidden; }
+  .panel.near { visibility: visible; }
+
+  .eyebrow { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin: 0; }
+  h1, h2, h3 { margin: 0; text-wrap: balance; font-weight: 600; }
+  h1 { font-size: clamp(32px, 4vw, 44px); line-height: 1.1; letter-spacing: -.02em; }
+  h2 { font-size: clamp(32px, 5vw, 48px); line-height: 1.1; letter-spacing: -.02em; }
+  h3 { font-size: 22px; line-height: 1.35; font-weight: 500; }
+  p { margin: 0; max-width: 62ch; }
+  .lede { font-size: clamp(18px, 2vw, 21px); line-height: 1.55; }
+  .muted { color: var(--lavender-muted); }
+  .small { font-size: 14px; line-height: 20px; }
+
+  /* buttons: leaf shape from Figma */
+  .actions { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 8px; }
+  .btn { font: 500 17px/1 var(--font); padding: 15px 30px; cursor: pointer; border-radius: var(--radius-lg) var(--radius-lg) var(--radius-sm) var(--radius-lg); border: 1.5px solid var(--lavender); transition: transform .2s ease; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn.fill { background: var(--lavender); color: var(--on-fill); }
+  .btn.line { background: transparent; color: var(--lavender); }
+
+  /* link with badge */
+  .link { display: inline-flex; align-items: center; gap: 12px; color: var(--lavender); text-decoration: none; font-size: 18px; }
+  .badge { width: 36px; height: 36px; border-radius: 999px; display: grid; place-items: center; flex: none; transition: transform .2s ease; }
+  .badge.l { background: var(--lavender); } .badge.g { background: var(--gold); }
+  .badge svg { width: 16px; height: 16px; stroke: var(--on-fill); }
+  .link:hover .badge { transform: rotate(45deg); }
+
+  /* chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font-size: 14px; font-weight: 600; line-height: 1; padding: 8px 12px; border-radius: var(--radius-sm); background: var(--lavender); color: var(--on-fill); }
+  .chip.g { background: var(--gold); }
+
+  /* cards */
+  .grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+  .card { background: var(--space-raised); border-radius: var(--radius-lg); padding: 24px; display: grid; gap: 12px; align-content: start; }
+  .card.feature { grid-column: 1 / -1; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 24px; align-items: center; }
+  .card.empty { background: transparent; border: 1.5px dashed var(--hairline); }
+  .card.empty h3 { color: var(--lavender-muted); }
+  .thumb { aspect-ratio: 4 / 3; max-width: 100%; border-radius: var(--radius-sm); background: var(--space); position: relative; overflow: hidden; }
+  .thumb canvas { width: 100%; height: 100%; display: block; }
+  .tag { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--lavender-muted); font-weight: 600; }
+
+  /* illustration masonry */
+  .masonry { columns: 3 220px; column-gap: 8px; }
+  .art { break-inside: avoid; margin: 0 0 8px; width: 100%; border: 0; padding: 0; border-radius: var(--radius-sm); background: var(--space-raised); display: block; position: relative; overflow: hidden; cursor: pointer; font: inherit; color: var(--lavender); text-align: left; }
+  .art img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
+  .art .art-ph { position: absolute; inset: 0; display: grid; place-items: center; color: var(--lavender-muted); font-size: 13px; }
+  .art .art-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 32px 12px 12px; background: linear-gradient(to top, rgba(41, 35, 61, .92), rgba(41, 35, 61, 0)); display: flex; justify-content: space-between; align-items: end; gap: 8px; font-size: 14px; font-weight: 500; opacity: 0; transform: translateY(6px); transition: opacity .25s, transform .25s; }
+  .art .art-cap span:last-child { font-size: 12px; color: var(--lavender-muted); white-space: nowrap; }
+  .art:hover .art-cap, .art:focus-visible .art-cap { opacity: 1; transform: none; }
+  .art:hover img { transform: scale(1.03); }
+  @media (hover: none) { .art .art-cap { opacity: 1; transform: none; } }
+  #lightbox { border: 0; padding: 0; background: var(--space-raised); color: var(--lavender); border-radius: var(--radius-lg); width: min(1040px, calc(100vw - 32px)); max-height: calc(100vh - 32px); box-shadow: 0 24px 64px rgba(0, 0, 0, .5); }
+  #lightbox::backdrop { background: rgba(20, 16, 32, .82); }
+  .lb { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); max-height: calc(100vh - 32px); }
+  .lb-media { background: var(--space); display: grid; place-items: center; min-height: 320px; }
+  .lb-media img { max-width: 100%; max-height: calc(100vh - 32px); object-fit: contain; display: block; }
+  .lb-media .art-ph { color: var(--lavender-muted); font-size: 14px; padding: 48px; text-align: center; }
+  .lb-info { padding: 32px 28px; display: grid; align-content: start; gap: 14px; overflow-y: auto; }
+  .lb-info h3 { font-size: 28px; line-height: 36px; font-weight: 600; }
+  .lb-info p { color: var(--lavender); font-size: 16px; line-height: 26px; }
+  .lb-sec { display: grid; gap: 8px; }
+  .lb-sec h4 { margin: 0; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--lavender-muted); font-weight: 600; }
+  .lb-process { display: grid; gap: 12px; border-top: 1px solid var(--hairline); padding-top: 16px; }
+  .lb-process h4 { margin: 0; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--lavender-muted); font-weight: 600; }
+  .lb-steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; }
+  .lb-step { border: 1.5px solid transparent; background: var(--space); border-radius: var(--radius-sm); padding: 0; cursor: pointer; color: var(--lavender-muted); font: 500 11px/1.2 var(--font); display: grid; overflow: hidden; }
+  .lb-step .lb-thumb { aspect-ratio: 1; display: grid; place-items: center; background: var(--space); overflow: hidden; }
+  .lb-step .lb-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .lb-step .lb-cap { padding: 6px 4px; text-align: center; background: var(--space-raised); }
+  .lb-step[aria-pressed="true"] { border-color: var(--lavender); color: var(--lavender); }
+  .lb-notes { font-size: 15px !important; line-height: 24px !important; color: var(--lavender-muted) !important; }
+  .lb-close { position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; border-radius: 999px; border: 0; background: var(--space); color: var(--lavender); font-size: 22px; line-height: 1; cursor: pointer; }
+  .lb-nav { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+  .lb-nav button { background: none; border: 1.5px solid var(--lavender); color: var(--lavender); border-radius: var(--radius-sm); padding: 8px 14px; font: 500 14px/1 var(--font); cursor: pointer; }
+  .lb-count { font-size: 13px; color: var(--lavender-muted); font-variant-numeric: tabular-nums; }
+  @media (max-width: 760px) { .lb { grid-template-columns: 1fr; overflow-y: auto; } .lb-media { min-height: 220px; } .lb-media img { max-height: 55vh; } .lb-info { padding: 20px; } }
+
+  /* about */
+  .facts { display: grid; gap: 0; margin: 0; }
+  .facts div { display: grid; grid-template-columns: 140px 1fr; gap: 16px; padding: 12px 0; border-top: 1px solid var(--hairline); }
+  .facts dt { color: var(--lavender-muted); font-size: 14px; }
+  .facts dd { margin: 0; }
+  .copy { font: 500 14px/1 var(--font); background: none; border: 1.5px solid var(--lavender); color: var(--lavender); border-radius: var(--radius-sm); padding: 8px 12px; cursor: pointer; margin-left: 8px; }
+  .two { display: grid; gap: 48px; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: start; }
+
+  /* lunar nav */
+  .orbit { position: relative; z-index: 2; padding: 88px clamp(8px, 3vw, 48px) calc(16px + env(safe-area-inset-bottom, 0px)); }
+  .orbit svg.arc { position: absolute; left: 0; right: 0; bottom: 70px; width: 100%; height: 120px; pointer-events: none; }
+  .orbit ol { list-style: none; margin: 0 auto; padding: 0; max-width: 1040px; display: flex; justify-content: space-between; align-items: flex-end; position: relative; }
+  .phase { background: none; border: 0; padding: 8px 6px; color: var(--lavender); font: 500 17px/1.25 var(--font); cursor: pointer; display: grid; justify-items: center; gap: 10px; border-radius: var(--radius-sm); min-width: 88px; transition: color .3s; }
+  .phase .moon-img { width: 104px; height: 104px; display: block; transition: transform .4s cubic-bezier(.3,1.4,.5,1), filter .4s; }
+  .phase:hover .moon-img { transform: translateY(-4px) scale(1.08); }
+  .phase[aria-current="true"] { color: var(--gold); }
+  .phase[aria-current="true"] .moon-img { transform: translateY(-10px) scale(1.15); filter: drop-shadow(0 0 12px rgba(244, 181, 80, .6)); }
+  .phase .pn { font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--lavender-muted); display: block; margin-top: 2px; font-weight: 400; }
+  .phase[aria-current="true"] .pn { color: var(--gold); }
+  .hint { text-align: center; font-size: 13px; color: var(--lavender-muted); margin: 0 0 6px; }
+
+  #kitty { position: fixed; left: 0; top: 0; width: 96px; height: auto; z-index: 3; pointer-events: none; will-change: transform; filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .3)); }
+  #fx { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; }
+  @media (max-width: 760px) { #kitty { width: 60px; } .orbit { padding-top: 56px; } .app.at-home .phase .moon-img { width: 13vw; height: 13vw; } .app.at-home .phase { font-size: 14px; } .app.at-home .orbit { padding-top: 76px; } }
+  @media (max-width: 420px) { #kitty { width: 50px; } .orbit { padding-top: 48px; } .app.at-home .phase .moon-img { width: 54px; height: 54px; } .app.at-home .phase { font-size: 11px; } .app.at-home .orbit { padding-top: 60px; } }
+  .home-inner { height: 100%; align-content: end; justify-items: center; text-align: center; gap: 12px; padding-bottom: clamp(16px, 5vh, 56px); }
+  .home-inner h1 { font-size: clamp(30px, 4.2vw, 52px); }
+  .home-hint { font-size: 14px; letter-spacing: .08em; text-transform: uppercase; color: var(--lavender-muted); }
+  .phase .moon-img { transition: transform .4s cubic-bezier(.3,1.4,.5,1), filter .4s, width .6s ease, height .6s ease; }
+  @media (min-width: 761px) {
+    .app.at-home .phase .moon-img { width: min(156px, 13vw); height: min(156px, 13vw); }
+    .app.at-home .orbit { padding-top: 110px; }
+    .app.at-home .phase { font-size: 20px; }
+  }
+  .app.at-home .orbit { padding-bottom: max(24px, calc(50vh - 150px)); }
+  .orbit svg.arc { transition: bottom .6s ease; }
+  .app.at-home .orbit svg.arc { bottom: calc(max(24px, calc(50vh - 150px)) + 40px); }
+  @media (max-width: 760px) { .app.at-home .orbit { padding-bottom: max(24px, calc(50vh - 90px)); } .app.at-home .orbit svg.arc { bottom: calc(max(24px, calc(50vh - 90px)) + 30px); } }
+  .orbit { transition: padding .6s ease; }
+  [hidden] { display: none !important; }
+  /* case study pages */
+  .lead-hero { width: 100%; max-width: 320px; aspect-ratio: 4 / 3; font-size: 13px; }
+  .linkbtn { background: none; border: 0; padding: 0; font: inherit; font-size: 18px; cursor: pointer; justify-self: start; }
+  .back { justify-self: start; background: none; border: 1.5px solid var(--lavender); color: var(--lavender); font: 500 15px/1 var(--font); padding: 10px 16px; border-radius: var(--radius-sm); cursor: pointer; }
+  .back:hover { background: var(--space-raised); }
+  .cs-detail { gap: 32px; }
+  .cs-head { display: grid; gap: 12px; }
+  .cs-hero { aspect-ratio: 16 / 7; }
+  .cs-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px; margin: 0; }
+  .cs-meta div { border-top: 1px solid var(--hairline); padding-top: 12px; display: grid; gap: 4px; }
+  .cs-meta dt { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--lavender-muted); font-weight: 600; }
+  .cs-meta dd { margin: 0; }
+  .fill-in { color: var(--lavender-muted); font-style: italic; }
+  .cs-body { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 48px; align-items: start; }
+  .cs-toc { position: sticky; top: 0; display: grid; gap: 4px; }
+  .cs-toc a { color: var(--lavender-muted); text-decoration: none; padding: 6px 12px; border-radius: var(--radius-sm); font-size: 15px; }
+  .cs-toc a:hover, .cs-toc a.on { color: var(--lavender); background: var(--space-raised); }
+  .cs-sections { display: grid; gap: 48px; }
+  .cs-sec { display: grid; gap: 16px; scroll-margin-top: 16px; }
+  .cs-sec h3 { font-size: 28px; line-height: 36px; font-weight: 600; }
+  .cs-sec h4 { margin: 0; font-size: 18px; font-weight: 600; }
+  .todo { border: 1.5px dashed var(--hairline); border-radius: var(--radius-sm); padding: 12px 16px; display: grid; gap: 6px; }
+  .todo p { color: var(--lavender-muted); font-size: 15px; line-height: 24px; }
+  .todo-tag { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 24px; }
+  .steps li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 16px; }
+  .steps li > div { display: grid; gap: 8px; }
+  .step-n { width: 40px; height: 40px; border-radius: 999px; background: var(--gold); color: var(--on-fill); font-weight: 600; display: grid; place-items: center; }
+  .frames { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 16px; }
+  .frame { margin: 0; display: grid; gap: 8px; }
+  .frame-slot { aspect-ratio: 16 / 10; border-radius: var(--radius-sm); background: var(--space-raised); display: grid; place-items: center; color: var(--lavender-muted); font-size: 14px; }
+  .frame figcaption { font-size: 14px; color: var(--lavender-muted); }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 16px; }
+  .metric { background: var(--space-raised); border-radius: var(--radius-lg); padding: 20px; display: grid; gap: 4px; }
+  .m-val { font-size: 36px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .m-lbl { font-size: 14px; color: var(--lavender-muted); }
+  @media (max-width: 760px) { .cs-body { grid-template-columns: 1fr; gap: 24px; } .cs-toc { position: static; display: flex; flex-wrap: wrap; } }
+  .about-side { display: grid; gap: 24px; align-content: start; }
+  .resume { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 16px; padding: 20px; border-radius: var(--radius-lg); background: var(--space-raised); color: var(--lavender); text-decoration: none; transition: transform .2s ease; }
+  .resume:hover { transform: translateY(-2px); }
+  .resume:hover .badge { transform: rotate(45deg); }
+  .resume-doc { width: 48px; height: 60px; border-radius: 6px; background: var(--lavender); display: grid; align-content: center; gap: 6px; padding: 0 10px; box-sizing: border-box; }
+  .resume-doc span { height: 3px; border-radius: 2px; background: var(--space); opacity: .55; }
+  .resume-doc span:nth-child(1) { width: 70%; opacity: .9; }
+  .resume-text { display: grid; gap: 2px; }
+  .resume-title { font-size: 20px; font-weight: 600; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .thumb-empty { border: 1.5px dashed var(--hairline); background: transparent; display: grid; place-items: center; color: var(--lavender-muted); font-size: 14px; box-sizing: border-box; }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+  @media (max-width: 760px) {
+    .card.feature, .two { grid-template-columns: 1fr; }
+    .facts div { grid-template-columns: 1fr; gap: 2px; }
+    .phase { min-width: 52px; font-size: 14px; padding-inline: 2px; }
+    .phase .moon-img { width: 64px; height: 64px; }
+    .orbit svg.arc { bottom: 40px; height: 70px; }
+    .phase .pn { display: none; }
+    #bigmoon { width: 46vw; opacity: .12; }
+  }
+  @media (max-width: 420px) {
+    .phase { min-width: 0; font-size: 11px; align-content: start; }
+    .orbit ol { align-items: flex-start; }
+    .phase .moon-img { width: 52px; height: 52px; }
+    .orbit { padding-inline: 8px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn, .badge, .phase .moon-img { transition: none; }
+  }
+
+  /* ---------- content helpers ---------- */
+  .prose { display: grid; gap: 12px; }
+  .page-links { display: flex; flex-wrap: wrap; gap: 16px; }
+  .soon { color: var(--lavender-muted); font-size: 15px; }
+  .card { position: relative; }
+  .about-photo { width: 100%; max-width: 240px; aspect-ratio: 4 / 5; border-radius: var(--radius-lg); overflow: hidden; background: var(--space-raised); }
+  .about-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .thumb.fit img { object-fit: contain; }
+  .art { min-height: 120px; }
+  .lb-links { display: flex; flex-wrap: wrap; gap: 12px; }
+  .lb-links a { color: var(--lavender); font-size: 15px; }
+
+  /* ---------- edit mode (hidden from visitors) ---------- */
+  .edit-only { display: none !important; }
+  body.editing .edit-only { display: revert !important; }
+  body.editing .ctl.edit-only, body.editing .edit-row.edit-only { display: flex !important; }
+  body.editing .add-card.edit-only, body.editing .thumb-empty.edit-only, body.editing .cs-sec.edit-only { display: grid !important; }
+
+  .edit-bar { position: fixed; top: calc(12px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); z-index: 30; display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 16px; border-radius: 999px; background: var(--lavender); color: var(--on-fill); font: 600 14px/1 var(--font); box-shadow: 0 8px 24px rgba(0,0,0,.35); max-width: calc(100vw - 32px); flex-wrap: wrap; }
+  .edit-bar .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--on-fill); }
+  .edit-bar button { font: 600 13px/1 var(--font); border: 0; border-radius: 999px; padding: 9px 14px; cursor: pointer; background: var(--on-fill); color: var(--lavender); }
+  .edit-bar .mode { font-weight: 500; opacity: .8; }
+
+  .ctl { position: absolute; top: 10px; right: 10px; z-index: 2; gap: 6px; }
+  .ctl button, .edit-btn { font: 600 12px/1 var(--font); padding: 8px 10px; border-radius: 999px; border: 1.5px solid var(--lavender); background: var(--space); color: var(--lavender); cursor: pointer; }
+  .ctl button.danger { border-color: var(--gold); color: var(--gold); }
+  .ctl button:disabled { opacity: .35; cursor: default; }
+  .edit-row { gap: 8px; flex-wrap: wrap; align-items: center; }
+  .add-card { place-items: center; min-height: 160px; border: 1.5px dashed var(--lavender-muted); border-radius: var(--radius-lg); background: transparent; color: var(--lavender); font: 600 16px/1.3 var(--font); cursor: pointer; padding: 24px; }
+  .add-card:hover { background: var(--space-raised); }
+  .masonry .add-card { width: 100%; margin-bottom: 8px; min-height: 140px; break-inside: avoid; border-radius: var(--radius-sm); }
+  .empty-hint { border: 1.5px dashed var(--hairline); border-radius: var(--radius-sm); padding: 12px 16px; color: var(--lavender-muted); font-size: 14px; }
+
+  /* editor dialog */
+  #editor, #login { border: 0; padding: 0; background: var(--space-raised); color: var(--lavender); border-radius: var(--radius-lg); width: min(760px, calc(100vw - 24px)); max-height: calc(100vh - 24px); box-shadow: 0 24px 64px rgba(0,0,0,.5); }
+  #login { width: min(420px, calc(100vw - 24px)); }
+  #editor::backdrop, #login::backdrop { background: rgba(20, 16, 32, .82); }
+  .ed { display: grid; grid-template-rows: auto 1fr auto; max-height: calc(100vh - 24px); }
+  .ed-head { padding: 20px 24px 12px; display: grid; gap: 4px; border-bottom: 1px solid var(--hairline); }
+  .ed-head h3 { font-size: 22px; font-weight: 600; }
+  .ed-body { padding: 20px 24px; overflow-y: auto; display: grid; gap: 18px; align-content: start; }
+  .ed-foot { padding: 14px 24px; border-top: 1px solid var(--hairline); display: flex; justify-content: flex-end; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .ed-status { margin-right: auto; font-size: 14px; color: var(--lavender-muted); }
+  .ed-status.err { color: var(--gold); }
+  .f { display: grid; gap: 6px; }
+  .f > label, .f-title { font-size: 13px; font-weight: 600; letter-spacing: .02em; }
+  .ed-body, .ed-head, .ed-foot { text-align: left; }
+  .f .hint { text-align: left; font-size: 12.5px; color: var(--lavender-muted); line-height: 1.4; }
+  .f input[type="text"], .f input[type="url"], .f input[type="password"], .f input[type="email"], .f textarea {
+    width: 100%; box-sizing: border-box; background: var(--space); color: var(--lavender); border: 1.5px solid var(--hairline); border-radius: var(--radius-sm); padding: 10px 12px; font: 400 15px/1.5 var(--font);
+  }
+  .f textarea { min-height: 96px; resize: vertical; }
+  .f input:focus, .f textarea:focus { outline: none; border-color: var(--lavender); }
+  .img-f { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 12px; align-items: start; }
+  .img-prev { width: 120px; height: 90px; border-radius: var(--radius-sm); background: var(--space); border: 1.5px dashed var(--hairline); display: grid; place-items: center; overflow: hidden; color: var(--lavender-muted); font-size: 12px; text-align: center; }
+  .img-prev img { width: 100%; height: 100%; object-fit: contain; }
+  .img-ctl { display: grid; gap: 8px; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .b-sm { font: 600 13px/1 var(--font); padding: 9px 12px; border-radius: var(--radius-sm); border: 1.5px solid var(--lavender); background: transparent; color: var(--lavender); cursor: pointer; }
+  .b-sm.solid { background: var(--lavender); color: var(--on-fill); }
+  .b-sm.warn { border-color: var(--gold); color: var(--gold); }
+  .b-sm:disabled { opacity: .45; cursor: default; }
+  .lst { display: grid; gap: 10px; }
+  .lst-item { border: 1.5px solid var(--hairline); border-radius: var(--radius-sm); padding: 12px; display: grid; gap: 12px; background: rgba(41, 35, 61, .45); }
+  .lst-head { display: flex; align-items: center; gap: 6px; }
+  .lst-head .lst-name { margin-right: auto; font-size: 13px; font-weight: 600; color: var(--lavender-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lst-head button { font: 600 12px/1 var(--font); padding: 6px 9px; border-radius: 999px; border: 1px solid var(--hairline); background: var(--space); color: var(--lavender); cursor: pointer; }
+  .lst-head button:disabled { opacity: .35; cursor: default; }
+  .lst-body { display: grid; gap: 12px; }
+  .lst-item.closed .lst-body { display: none; }
+  .toast { position: fixed; left: 50%; top: calc(64px + env(safe-area-inset-top, 0px)); transform: translateX(-50%); z-index: 40; background: var(--space-raised); color: var(--lavender); border: 1.5px solid var(--lavender); padding: 10px 16px; border-radius: 999px; font: 500 14px/1.2 var(--font); box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+  .toast.err { border-color: var(--gold); color: var(--gold); }
+  @media (max-width: 600px) {
+    .img-f { grid-template-columns: 1fr; }
+    .edit-bar { flex-wrap: nowrap; padding-left: 12px; gap: 6px; }
+    .edit-bar .mode, .edit-bar .bk-long { display: none; }
+    .toast { top: calc(60px + env(safe-area-inset-top, 0px)); max-width: calc(100vw - 32px); }
+  }
+  @media (min-width: 601px) { .edit-bar .bk-short { display: none; } }
+
+
+  /* ---------- keep images and long text inside the frame ---------- */
+  img { max-width: 100%; height: auto; }
+  .track > .panel { min-width: 0; }
+  .inner, .cs-body, .cs-sections, .cs-sec, .steps li > div, .metric, .frame { min-width: 0; }
+  p, h2, h3, h4, .m-val, .m-lbl, dd, figcaption { overflow-wrap: anywhere; }
+  .thumb img { object-fit: contain; }
+  .cs-hero { aspect-ratio: auto; display: grid; place-items: center; padding: 12px; box-sizing: border-box; }
+  .cs-hero img { width: auto; max-width: 100%; height: auto; max-height: min(60vh, 520px); object-fit: contain; border-radius: var(--radius-sm); }
+  .frame-slot { aspect-ratio: auto; min-height: 120px; padding: 8px; box-sizing: border-box; overflow: hidden; }
+  .frame-slot img { display: block; width: auto; max-width: 100%; height: auto; max-height: 420px; object-fit: contain; border-radius: 6px; }
+  .lead-hero img { width: 100%; height: 100%; object-fit: contain; }
+  .m-val { font-size: clamp(22px, 2.6vw, 34px); line-height: 1.15; }
+  .metric { align-content: start; }
+  /* ---------- framed content window (keeps every section inside a centered border) ---------- */
+  .stage { justify-self: center; width: min(1200px, calc(100% - 2 * clamp(12px, 3vw, 40px))); margin-top: 12px; border-radius: var(--radius-lg); border: 1.5px solid transparent; transition: background-color .5s ease, border-color .5s ease, box-shadow .5s ease; }
+  .app:not(.at-home) .stage { background: rgba(41, 35, 61, .74); border-color: var(--hairline); box-shadow: 0 20px 60px rgba(0, 0, 0, .28); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+  .panel { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22px, #000 calc(100% - 30px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 22px, #000 calc(100% - 30px), transparent 100%); padding-block: clamp(20px, 4vh, 48px) 40px; }
+  @media (min-width: 761px) {
+    .app:not(.at-home) .phase .moon-img { width: 84px; height: 84px; }
+    .app:not(.at-home) .orbit { padding-top: 70px; }
+    .app:not(.at-home) .orbit svg.arc { bottom: 60px; height: 100px; }
+    body.away #kitty { width: 78px; }
+  }
+
+
+  /* ---------- wide layout: content fills the screen with a 48px buffer ---------- */
+  .stage { width: calc(100% - 2 * clamp(12px, 3.5vw, 48px)); max-width: none; }
+  .app:not(.at-home) .stage { background: rgba(41, 35, 61, .38); }
+  .panel { padding-inline: clamp(16px, 2.5vw, 36px); }
+  .panel > .inner:not(.home-inner) { max-width: none; }
+  .cs-body { grid-template-columns: 210px minmax(0, 1fr); gap: clamp(20px, 2.5vw, 36px); }
+  /* one see-through box behind the page's section text */
+  .cs-sections { background: rgba(23, 19, 36, .72); border: 1px solid var(--hairline); border-radius: var(--radius-lg); padding: clamp(20px, 3vw, 40px); box-shadow: 0 12px 40px rgba(0, 0, 0, .25); }
+  .cs-sections p { max-width: 75ch; }
+  /* section buttons: solid gold with navy text */
+  .cs-toc { gap: 10px; }
+  .cs-toc a { display: block; background: var(--gold); color: var(--on-fill); font-weight: 600; font-size: 15px; padding: 11px 16px; border-radius: var(--radius-sm); border: 2px solid var(--gold); box-shadow: 0 4px 14px rgba(0, 0, 0, .25); transition: transform .15s ease, background-color .15s ease, color .15s ease; }
+  .cs-toc a:hover { background: var(--gold); color: var(--on-fill); transform: translateX(4px); }
+  .cs-toc a.on { background: var(--space); color: var(--gold); }
+  @media (max-width: 760px) {
+    .cs-body { grid-template-columns: 1fr; }
+    .cs-toc { gap: 8px; }
+    .cs-toc a { padding: 9px 14px; font-size: 14px; }
+    .cs-toc a:hover { transform: translateY(-2px); }
+  }
+  @media (prefers-reduced-motion: reduce) { .cs-toc a { transition: none; } .cs-toc a:hover { transform: none; } }
+
+  /* ---------- floating home title ---------- */
+  .float-title .fw { display: inline-block; white-space: nowrap; }
+  .float-title .fl { display: inline-block; animation: drift var(--t, 5s) ease-in-out var(--d, 0s) infinite; will-change: transform; }
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(0.5px, -4px) rotate(var(--r, 1deg)); }
+    50% { transform: translate(0, -2px) rotate(0deg); }
+    75% { transform: translate(-0.5px, 2.5px) rotate(calc(var(--r, 1deg) * -1)); }
+  }
+  .float-title { animation: titleBob 9s ease-in-out infinite; }
+  @keyframes titleBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @media (prefers-reduced-motion: reduce) { .float-title, .float-title .fl { animation: none; } }
+
+  /* ---------- images placed between steps ---------- */
+  .shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 14px; align-items: start; margin: 4px 0; }
+  .shots.one { display: block; }
+  .shot { margin: 0; display: grid; gap: 8px; width: fit-content; max-width: 100%; background: rgba(41, 35, 61, .9); border: 1px solid var(--hairline); border-radius: 14px; padding: 8px; box-sizing: border-box; box-shadow: 0 8px 24px rgba(0, 0, 0, .25); }
+  .shots:not(.one) .shot { width: 100%; }
+  .shot .zoom { display: block; padding: 0; border: 1px solid rgba(218, 203, 245, .25); border-radius: 8px; background: none; cursor: zoom-in; overflow: hidden; max-width: 100%; }
+  .shot .zoom img { display: block; max-width: 100%; height: auto; max-height: min(520px, 60vh); object-fit: contain; transition: transform .3s ease; }
+  .shots:not(.one) .shot .zoom img { width: 100%; max-height: 260px; }
+  .shot .zoom:hover img { transform: scale(1.02); }
+  .shot figcaption { font-size: 14px; color: var(--lavender-muted); padding: 0 4px 2px; }
+  .steps + .steps { margin-top: 0; }
+  .it-tag { font: 600 11px/1 var(--font); letter-spacing: .06em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; background: var(--space); border: 1px solid var(--hairline); color: var(--lavender); flex: none; }
+  .item-step .it-tag { color: var(--gold); border-color: var(--gold); }
+  .add-row { padding-top: 4px; }
+  @media (prefers-reduced-motion: reduce) { .shot .zoom img { transition: none; } }
+
+  /* ---------- text formatting ---------- */
+  .rt-list { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; max-width: 75ch; }
+  .rt-list li::marker { color: var(--gold); }
+  .rt-list.lede { font-size: clamp(18px, 2vw, 21px); }
+  .rt-list.small { font-size: 14px; line-height: 20px; }
+  .rt-list.muted { color: var(--lavender-muted); }
+  strong { font-weight: 700; color: inherit; }
+  .fmt-bar { display: flex; gap: 6px; flex-wrap: wrap; }
+  .fmt { font: 600 13px/1 var(--font); min-width: 34px; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--hairline); background: var(--space); color: var(--lavender); cursor: pointer; }
+  .fmt:hover { border-color: var(--lavender); }
+  .fmt.b { font-weight: 800; } .fmt.i { font-style: italic; } .fmt.u { text-decoration: underline; }
+
+  /* ---------- paragraph spacing: every new line is its own paragraph ---------- */
+  .rt { display: grid; gap: 20px; min-width: 0; }
+  .rt.rt-sm { gap: 12px; }
+</style>
+</head>
+<body>
+
+<canvas id="sky" aria-hidden="true"></canvas>
+<canvas id="fx" aria-hidden="true"></canvas>
+<img id="kitty" src="assets/kitty.webp" alt="">
+<svg id="bigmoon" viewBox="0 0 200 200" aria-hidden="true"><defs><clipPath id="litclip"><path id="bigmoon-lit"/></clipPath></defs><circle cx="100" cy="100" r="96" fill="#f4b550" fill-opacity=".3"/><image href="assets/bigmoon.webp" x="0" y="0" width="200" height="200" clip-path="url(#litclip)"/></svg>
+
+<div class="edit-bar" id="edit-bar" hidden>
+  <span class="dot" aria-hidden="true"></span><span>Editing</span><span class="mode" id="edit-mode"></span>
+  <button type="button" id="backup-btn"><span class="bk-long">Download backup</span><span class="bk-short">Backup</span></button>
+  <button type="button" id="lock-btn">Lock</button>
+</div>
+
+<div class="app">
+  <header class="top">
+    <button class="mark" id="mark" type="button" data-go="0" aria-label="Jennifer Nguyen, home"><svg class="logo" viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="hdr" gradientUnits="userSpaceOnUse" x1="126" y1="74" x2="20" y2="180"><stop offset="0" stop-color="#f4b550"/><stop offset=".9" stop-color="#f4b550" stop-opacity="0"/></linearGradient></defs><path d="M110.4 58.4L20.0 180.0L141.6 89.6Z" fill="url(#hdr)"/><path d="M126 8Q136.56 63.44 192 74Q136.56 84.56 126 140Q115.44 84.56 60 74Q115.44 63.44 126 8Z" fill="#f4b550"/></svg><span id="mark-text">JLN</span></button>
+    <a class="link" href="#about" data-go="5"><span class="small muted" id="contact-link">Contact Me</span></a>
+  </header>
+
+  <main class="stage" id="stage">
+    <div class="track" id="track"></div>
+  </main>
+
+  <nav class="orbit" aria-label="Portfolio sections by moon phase">
+    <svg class="arc" viewBox="0 0 1000 70" preserveAspectRatio="none" aria-hidden="true"><path d="M20 66 Q500 -20 980 66" fill="none" stroke="#4a4266" stroke-width="1.2" stroke-dasharray="2 6" vector-effect="non-scaling-stroke"/></svg>
+    <ol id="phases"></ol>
+  </nav>
+</div>
+
+<dialog id="lightbox" aria-labelledby="lb-title">
+  <div class="lb">
+    <div class="lb-media" id="lb-media"></div>
+    <div class="lb-info">
+      <span class="tag" id="lb-meta"></span>
+      <h3 id="lb-title"></h3>
+      <div class="lb-sec"><h4 id="lb-desc-h" hidden>Description</h4><div id="lb-desc" class="prose"></div></div>
+      <div class="lb-sec" id="lb-purpose-box" hidden><h4>Purpose</h4><div id="lb-purpose" class="prose"></div></div>
+      <div class="lb-process" id="lb-process" hidden>
+        <h4>Process</h4>
+        <div class="lb-steps" id="lb-steps" role="group" aria-label="Views of this piece"></div>
+        <div class="lb-notes prose" id="lb-notes"></div>
+      </div>
+      <div class="lb-links" id="lb-links" hidden></div>
+      <div class="lb-nav">
+        <button type="button" id="lb-prev">&larr; Previous</button>
+        <button type="button" id="lb-next">Next &rarr;</button>
+        <span class="lb-count" id="lb-count"></span>
+      </div>
+    </div>
+  </div>
+  <button class="lb-close" type="button" id="lb-close" aria-label="Close">&times;</button>
+</dialog>
+
+<dialog id="editor" aria-labelledby="ed-title">
+  <div class="ed">
+    <div class="ed-head"><h3 id="ed-title">Edit</h3><span class="small muted" id="ed-sub"></span></div>
+    <div class="ed-body" id="ed-body"></div>
+    <div class="ed-foot">
+      <span class="ed-status" id="ed-status" role="status"></span>
+      <button type="button" class="b-sm warn" id="ed-delete" hidden>Delete</button>
+      <button type="button" class="b-sm" id="ed-cancel">Cancel</button>
+      <button type="button" class="b-sm solid" id="ed-save">Save &amp; publish</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="login" aria-labelledby="login-title">
+  <form id="login-form" class="ed">
+    <div class="ed-head"><h3 id="login-title">Unlock edit mode</h3></div>
+    <div class="ed-body">
+      <div class="f"><label for="login-pw">Password</label><input type="password" id="login-pw" autocomplete="current-password" required></div>
+      <p class="small muted" id="login-msg" role="status"></p>
+    </div>
+    <div class="ed-foot">
+      <button type="button" class="b-sm" id="login-cancel">Cancel</button>
+      <button type="submit" class="b-sm solid" id="login-go">Unlock</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(() => {
+  "use strict";
+  const ARROW = '<svg viewBox="0 0 16 16" fill="none" stroke-width="2" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"/></svg>';
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const C = { gold: "#f4b550", lav: "#dacbf5" };
+
+  // Fixed parts of the site: the six moons and what kind of content each holds.
+  const SECTIONS = [
+    { id: "home", phase: "New moon", p: 0, kind: "home" },
+    { id: "case-studies", phase: "Waxing crescent", p: 0.125, kind: "pages", list: "caseStudies", noun: "case study" },
+    { id: "leadership", phase: "First quarter", p: 0.25, kind: "pages", list: "leadership", noun: "leadership project" },
+    { id: "illustration", phase: "Waxing gibbous", p: 0.375, kind: "gallery", list: "illustrations", noun: "artwork" },
+    { id: "design", phase: "Full moon", p: 0.5, kind: "designs", list: "designs", noun: "design project" },
+    { id: "about", phase: "Waning gibbous", p: 0.625, kind: "about" },
+  ];
+  const MOONS = [1, 2, 3, 4, 5, 6].map(n => `assets/moon-${n}.webp`);
+
+  // ---------- Starting content (used until the first save) ----------
+  const DEFAULT_CONTENT = {
+    v: 1,
+    site: { mark: "JLN", homeTitle: "Jennifer Nguyen's Portfolio", homeHint: "Pick a lunar cycle to travel to", contactLabel: "Contact Me" },
+    sections: {
+      home: { label: "Home" },
+      "case-studies": { label: "Case Studies", intro: "Product and UI/UX work, from research to final prototype." },
+      leadership: { label: "Leadership", intro: "All projects and events I created or supported for student communities at the University of Washington." },
+      illustration: { label: "Illustration", intro: "Digital illustration by me. No AI." },
+      design: { label: "Design", intro: "Graphics, visual design and interaction experiments." },
+      about: { label: "About", intro: "" },
+    },
+    caseStudies: [
+      {
+        id: "valorant", title: "Valorant gun upgrade redesign", tag: "UI/UX case study · In progress",
+        summary: "Reworking how players compare and upgrade weapon skins so every tier's changes are clear before they spend.",
+        thumb: "", hero: "", links: [],
+        meta: [{ label: "Role", value: "" }, { label: "Timeline", value: "" }, { label: "Tools", value: "Figma" }, { label: "Deliverables", value: "3 to 5 prototype frames and this case study" }],
+        blocks: [
+          { heading: "Purpose", text: "Valorant's gun upgrade system lets players unlock new levels and variants of a weapon skin. This project aims to make that system easier to understand, so players can see what each upgrade changes before they commit.", steps: [], images: [], metrics: [] },
+          { heading: "Goals and users", text: "", steps: [], images: [], metrics: [] },
+          { heading: "Process", text: "", steps: [
+            { title: "Research", text: "How players understand upgrades today." },
+            { title: "Define", text: "Turning findings into the problems to solve." },
+            { title: "Information architecture", text: "Organizing tiers, variants, costs and previews." },
+            { title: "Wireframes", text: "Exploring layouts before visual design." },
+            { title: "Prototype", text: "High-fidelity frames in Figma." },
+            { title: "Test and iterate", text: "Checking the design with players." },
+          ], images: [], metrics: [] },
+          { heading: "Product", text: "", steps: [], images: [], metrics: [] },
+          { heading: "Impact", text: "", steps: [], images: [], metrics: [] },
+          { heading: "Reflection and next steps", text: "", steps: [], images: [], metrics: [] },
+        ],
+      },
+    ],
+    leadership: [
+      {
+        id: "ixda-treasurer", title: "Treasurer, Interaction Design Association", tag: "IxDA UW Bothell",
+        summary: "Executive member of IxDA at UW Bothell, a student organization for interaction design and user experience.",
+        thumb: "", hero: "", links: [],
+        meta: [{ label: "Organization", value: "IxDA UW Bothell" }, { label: "Role", value: "Treasurer, executive board" }, { label: "Timeline", value: "" }],
+        blocks: [
+          { heading: "Context", text: "IxDA UW Bothell brings together students interested in interaction design and user experience.", steps: [], images: [], metrics: [] },
+          { heading: "My role", text: "", steps: [], images: [], metrics: [] },
+          { heading: "Impact", text: "", steps: [], images: [], metrics: [] },
+          { heading: "Reflection", text: "", steps: [], images: [], metrics: [] },
+        ],
+      },
+      {
+        id: "stars-hackathons", title: "Hackathons and community events", tag: "STARS",
+        summary: "Lead hackathons and community-building events for STARS, UW Bothell's student academic success program.",
+        thumb: "", hero: "", links: [],
+        meta: [{ label: "Organization", value: "STARS, UW Bothell" }, { label: "Role", value: "Event lead" }, { label: "Timeline", value: "" }],
+        blocks: [
+          { heading: "Context", text: "STARS is UW Bothell's student academic success program.", steps: [], images: [], metrics: [] },
+          { heading: "Events I led", text: "", steps: [], images: [], metrics: [] },
+          { heading: "Impact", text: "", steps: [], images: [], metrics: [] },
+          { heading: "Reflection", text: "", steps: [], images: [], metrics: [] },
+        ],
+      },
+      {
+        id: "stars-social", title: "Social media and communications", tag: "STARS",
+        summary: "Run social media and communications for STARS, UW Bothell's student academic success program.",
+        thumb: "", hero: "", links: [],
+        meta: [{ label: "Organization", value: "STARS, UW Bothell" }, { label: "Role", value: "Social media and communications" }, { label: "Timeline", value: "" }],
+        blocks: [
+          { heading: "Selected work", text: "", steps: [], images: [], metrics: [] },
+          { heading: "Strategy", text: "", steps: [], images: [], metrics: [] },
+          { heading: "Impact", text: "", steps: [], images: [], metrics: [] },
+        ],
+      },
+    ],
+    illustrations: [],
+    designs: [
+      {
+        id: "lunar-navigation", title: "This site's lunar navigation", tag: "Interaction", meta: "Interaction design · 2026",
+        summary: "A portfolio you travel through by moon phase, with a layered star field that moves at different depths as you go.",
+        thumb: "assets/figma-components.webp", src: "assets/figma-components.webp", links: [],
+        description: "A portfolio you travel through by moon phase. An astronaut kitty floats between hand-drawn moons while a star field twinkles and shifts in layers behind the content.",
+        purpose: "Make moving through my portfolio feel like exploring, so the site itself shows my interest in interactive, human-centered UI/UX.",
+        process: [
+          { src: "assets/figma-components.webp", caption: "Colors & components" },
+          { src: "assets/moon-5.webp", caption: "Moon phases" },
+          { src: "assets/kitty.webp", caption: "Astronaut kitty" },
+          { src: "assets/stars.webp", caption: "Star field" },
+        ],
+        processNotes: "I set the palette and components in Figma, drew the moons, kitty and stars myself, then built and refined the interactions in the browser.",
+      },
+      {
+        id: "graphics", title: "Graphics", tag: "Graphics", meta: "Graphic design",
+        summary: "Posters, event graphics and social posts.", thumb: "", src: "", links: [],
+        description: "", purpose: "", process: [], processNotes: "",
+      },
+    ],
+    about: {
+      lead: "I'm a Pacific Northwest native studying Business Administration with a concentration in Management Information Systems. I'm drawn to the space where people, visuals and data meet: figuring out what someone needs, sketching it, and checking whether it worked.",
+      body: "Outside class I run social media and communications for STARS, UW Bothell's student academic success program, and lead its hackathons and community events. I also serve as treasurer of the Interaction Design Association (IxDA) at UW Bothell.",
+      links: [{ label: "ArtStation", url: "https://www.artstation.com/heykarmix" }],
+      photo: "",
+      resume: "resume.pdf",
+      email: "jennifernguyen0813@gmail.com",
+      facts: [
+        { label: "Based in", value: "Greater Seattle Area" },
+        { label: "Studying", value: "Business Administration, Management Information Systems concentration · Data Analytics minor" },
+        { label: "Leadership", value: "Treasurer, IxDA UW Bothell · Hackathon lead, STARS" },
+        { label: "Tools", value: "Figma, Clip Studio Paint, SharePoint" },
+      ],
+    },
+  };
+
+  // ---------- Small helpers ----------
+  const clone = o => JSON.parse(JSON.stringify(o));
+  const $ = (sel, root = document) => root.querySelector(sel);
+  function h(tag, attrs, ...kids) {
+    const el = document.createElement(tag);
+    if (attrs) for (const [k, v] of Object.entries(attrs)) {
+      if (v == null || v === false) continue;
+      if (k === "class") el.className = v;
+      else if (k === "html") el.innerHTML = v; // only ever used with our own static markup
+      else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+      else el.setAttribute(k, v === true ? "" : v);
+    }
+    for (const kid of kids.flat()) if (kid != null && kid !== false) el.append(kid instanceof Node ? kid : String(kid));
+    return el;
+  }
+  const filled = v => typeof v === "string" ? v.trim().length > 0 : Array.isArray(v) ? v.length > 0 : !!v;
+  function safeUrl(u, forImage) {
+    u = String(u || "").trim();
+    if (!u) return "";
+    if (/^(https?:|mailto:)/i.test(u)) return u;
+    if (forImage && /^(data:image\/|blob:)/i.test(u)) return u;
+    if (/^data:application\/pdf/i.test(u)) return u; // preview-mode resume
+    if (/^[\w./-]+$/.test(u) && !u.startsWith("//")) return u; // relative file in the repo
+    return "";
+  }
+  // Simple formatting: **bold**, *italic*, __underline__, and lines starting with "- " become bullets.
+  // Text is turned into page elements piece by piece, never pasted in as HTML.
+  function inline(text) {
+    const out = []; const re = /(\*\*([^*]+?)\*\*|__([^_]+?)__|\*([^*\s][^*]*?)\*)/g;
+    let last = 0, m; text = String(text || "");
+    while ((m = re.exec(text))) {
+      if (m.index > last) out.push(text.slice(last, m.index));
+      if (m[2] != null) out.push(h("strong", null, ...inline(m[2])));
+      else if (m[3] != null) out.push(h("u", null, ...inline(m[3])));
+      else out.push(h("em", null, ...inline(m[4])));
+      last = re.lastIndex;
+    }
+    if (last < text.length) out.push(text.slice(last));
+    return out;
+  }
+  const BULLET = /^\s*[-•*]\s+/;
+  function paragraphs(text, cls) {
+    const out = [];
+    String(text || "").split(/\n\s*\n/).map(t => t.trim()).filter(Boolean).forEach(block => {
+      let buf = [], ul = null;
+      const flush = () => { buf.forEach(line => out.push(h("p", { class: cls }, ...inline(line)))); buf = []; };
+      block.split("\n").forEach(line => {
+        if (BULLET.test(line)) { flush(); if (!ul) { ul = h("ul", { class: "rt-list" + (cls ? " " + cls : "") }); out.push(ul); } ul.append(h("li", null, ...inline(line.replace(BULLET, "")))); }
+        else if (line.trim()) { ul = null; buf.push(line.trim()); }
+      });
+      flush();
+    });
+    return out.length ? [h("div", { class: "rt" + (/small/.test(cls || "") ? " rt-sm" : "") }, ...out)] : [];
+  }
+  const slug = t => (String(t || "item").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "item") + "-" + Math.random().toString(36).slice(2, 6);
+  const img = (src, alt, extra) => { const s = safeUrl(src, true); return s ? h("img", Object.assign({ src: s, alt: alt || "", loading: "lazy" }, extra || {})) : null; };
+  function toast(msg, err) {
+    document.querySelectorAll(".toast").forEach(x => x.remove());
+    const t = h("div", { class: "toast" + (err ? " err" : ""), role: "status" }, msg);
+    document.body.append(t); setTimeout(() => t.remove(), err ? 5000 : 2600);
+  }
+
+  // ---------- State ----------
+  let CONTENT = clone(DEFAULT_CONTENT);
+  let editing = false, password = "", mode = "live"; // mode: live (saves to the server) or preview (saves in this browser)
+  const openDetail = {}; // section id -> open page id
+  const PREVIEW_KEY = "lunar-portfolio-preview";
+
+  function mergeDefaults(data) {
+    const out = clone(DEFAULT_CONTENT);
+    if (!data || data.v !== 1) return out;
+    for (const k of Object.keys(out)) if (data[k] !== undefined) out[k] = data[k];
+    out.site = Object.assign({}, DEFAULT_CONTENT.site, data.site || {});
+    out.sections = Object.assign({}, DEFAULT_CONTENT.sections, data.sections || {});
+    return out;
+  }
+
+  async function loadContent() {
+    try {
+      const r = await fetch("/api/content", { cache: "no-store" });
+      const type = r.headers.get("content-type") || "";
+      if (!r.ok || !type.includes("json")) throw new Error("no api");
+      const data = await r.json();
+      mode = "live";
+      return mergeDefaults(data);
+    } catch (e) {
+      mode = "preview";
+      try { const saved = localStorage.getItem(PREVIEW_KEY); if (saved) return mergeDefaults(JSON.parse(saved)); } catch (err) {}
+      return clone(DEFAULT_CONTENT);
+    }
+  }
+
+  // ---------- Rendering ----------
+  const track = $("#track");
+  const panels = SECTIONS.map(s => h("section", { class: "panel", id: s.id, "aria-labelledby": "h-" + s.id }));
+  track.append(...panels);
+  const sectionOf = id => SECTIONS.find(s => s.id === id);
+  const labelOf = s => (CONTENT.sections[s.id] && CONTENT.sections[s.id].label) || s.id;
+
+  function ctlBar(list, i, onEdit, noun) {
+    let armed = false, del;
+    const moveBtn = (dir, label, text) => h("button", { type: "button", "aria-label": label, disabled: (dir < 0 ? i === 0 : i === list.length - 1) || null, onclick: e => {
+      e.stopPropagation(); const j = i + dir; commit(() => { [list[i], list[j]] = [list[j], list[i]]; }, `Moved ${noun}`);
+    } }, text);
+    del = h("button", { type: "button", class: "danger", onclick: e => {
+      e.stopPropagation();
+      if (!armed) { armed = true; del.textContent = "Confirm delete"; setTimeout(() => { armed = false; del.textContent = "Delete"; }, 4000); return; }
+      commit(() => { list.splice(i, 1); }, `Deleted ${noun}`);
+    } }, "Delete");
+    return h("div", { class: "ctl edit-only" },
+      h("button", { type: "button", onclick: e => { e.stopPropagation(); onEdit(); } }, "Edit"),
+      moveBtn(-1, "Move earlier", "←"), moveBtn(1, "Move later", "→"), del);
+  }
+  function editRow(...btns) { return h("div", { class: "edit-row edit-only" }, ...btns); }
+  const editBtn = (text, fn) => h("button", { type: "button", class: "edit-btn", onclick: fn }, text);
+  function sectionHead(s) {
+    const sec = CONTENT.sections[s.id] || {};
+    return [
+      h("p", { class: "eyebrow" }, s.phase),
+      h("h2", { id: "h-" + s.id }, sec.label || ""),
+      ...paragraphs(sec.intro, "lede muted"),
+      editRow(editBtn("Edit section title and intro", () => openEditor({
+        title: "Section", schema: SECTION_SCHEMA, value: sec, onSave: v => { CONTENT.sections[s.id] = v; }, noun: "section",
+      }))),
+    ];
+  }
+  function thumbBox(src, alt, fit) {
+    const i = img(src, alt);
+    if (i) return h("div", { class: "thumb" + (fit ? " fit" : "") }, i);
+    return h("div", { class: "thumb thumb-empty edit-only" }, h("span", null, "No thumbnail yet"));
+  }
+  const readMore = (label, attrs) => h("button", Object.assign({ class: "link linkbtn", type: "button" }, attrs), h("span", { class: "badge l", html: ARROW }), label);
+
+  // Title letters drift gently, each on its own rhythm, like they're floating in space.
+  function floatTitle(text) {
+    const t = String(text || "");
+    let n = 0;
+    const words = t.split(" ").map((w, wi, arr) => {
+      const letters = [...w].map(ch => {
+        const i = n++;
+        return h("span", { class: "fl", "aria-hidden": "true", style: `--d:${(-(i * 0.37) % 5).toFixed(2)}s;--t:${(4.2 + (i * 7 % 5) * 0.35).toFixed(2)}s;--r:${((i % 2 ? 1 : -1) * (0.7 + (i % 3) * 0.45)).toFixed(1)}deg` }, ch);
+      });
+      return [h("span", { class: "fw" }, letters), wi < arr.length - 1 ? " " : null];
+    });
+    return h("h1", { id: "h-home", class: "float-title", "aria-label": t }, words.flat());
+  }
+  function renderHome(panel) {
+    const st = CONTENT.site;
+    panel.replaceChildren(h("div", { class: "inner home-inner" },
+      floatTitle(st.homeTitle),
+      filled(st.homeHint) ? h("p", { class: "home-hint" }, st.homeHint) : null,
+      editRow(editBtn("Edit home, header and moon labels", () => openEditor({
+        title: "Home and header", schema: SITE_SCHEMA, value: Object.assign({}, st, { labels: SECTIONS.map(s => ({ label: labelOf(s) })) }),
+        onSave: v => {
+          const labels = v.labels || []; delete v.labels; CONTENT.site = v;
+          SECTIONS.forEach((s, i) => { CONTENT.sections[s.id] = Object.assign({}, CONTENT.sections[s.id], { label: (labels[i] && labels[i].label) || labelOf(s) }); });
+        }, fixedList: "labels",
+      })))
+    ));
+  }
+
+  function renderPages(panel, s) {
+    const list = CONTENT[s.list];
+    const cards = list.map((pg, i) => h("article", { class: "card" },
+      ctlBar(list, i, () => editPage(s, i), s.noun),
+      thumbBox(pg.thumb, pg.title),
+      filled(pg.tag) ? h("span", { class: "tag" }, pg.tag) : null,
+      h("h3", null, pg.title || "Untitled"),
+      ...paragraphs(pg.summary, "small muted"),
+      readMore(s.id === "case-studies" ? "Read the case study" : "Read more", { "data-open": pg.id })
+    ));
+    const add = h("button", { type: "button", class: "add-card edit-only", onclick: () => addPage(s) }, "+ Add " + s.noun);
+    const listView = h("div", { class: "inner cs-list" }, sectionHead(s),
+      list.length ? null : h("p", { class: "soon" }, "New work coming soon."),
+      h("div", { class: "grid" }, cards, add));
+    const details = list.map((pg, i) => renderDetail(s, pg, i));
+    panel.replaceChildren(listView, ...details);
+    const open = openDetail[s.id];
+    if (open && list.some(p => p.id === open)) showDetail(open, true); else openDetail[s.id] = null;
+  }
+
+  // A section's content is an ordered list of pieces: text, step, images or results.
+  // Older sections stored these in separate fields; they're read in that order.
+  function blockItems(b) {
+    if (Array.isArray(b.items)) return b.items;
+    const out = [];
+    if (filled(b.text)) out.push({ type: "text", text: b.text });
+    (b.steps || []).forEach(st => out.push({ type: "step", title: st.title || "", text: st.text || "" }));
+    if (filled(b.images)) out.push({ type: "images", images: b.images });
+    if (filled(b.metrics)) out.push({ type: "results", metrics: b.metrics });
+    return out;
+  }
+  function itemHas(it) {
+    if (it.type === "text") return filled(it.text);
+    if (it.type === "step") return filled(it.title) || filled(it.text);
+    if (it.type === "images") return (it.images || []).some(im => safeUrl(im.src, true));
+    if (it.type === "results") return (it.metrics || []).some(m => filled(m.value));
+    return false;
+  }
+  function blockHas(b) { return blockItems(b).some(itemHas); }
+  function normalizePage(pg) {
+    const v = clone(pg);
+    v.blocks = (v.blocks || []).map(b => ({ heading: b.heading || "", items: clone(blockItems(b)) }));
+    return v;
+  }
+  const zoomLists = {};
+  function renderItems(b, pid) {
+    const out = []; let n = 0, ol = null;
+    const zl = zoomLists[pid] || (zoomLists[pid] = []);
+    blockItems(b).filter(itemHas).forEach(it => {
+      if (it.type === "step") {
+        n++;
+        if (!ol) { ol = h("ol", { class: "steps" }); out.push(ol); }
+        ol.append(h("li", null, h("span", { class: "step-n" }, n), h("div", null, filled(it.title) ? h("h4", null, it.title) : null, ...paragraphs(it.text))));
+        return;
+      }
+      ol = null;
+      if (it.type === "text") out.push(...paragraphs(it.text));
+      else if (it.type === "images") {
+        const ims = it.images.filter(im => safeUrl(im.src, true));
+        const figs = ims.map(im => {
+          const k = zl.push({ src: im.src, title: im.caption || "" }) - 1;
+          return h("figure", { class: "shot" },
+            h("button", { type: "button", class: "zoom", "data-zoom": pid + ":" + k, "aria-label": "View full image" + (filled(im.caption) ? ": " + im.caption : "") }, img(im.src, im.caption)),
+            filled(im.caption) ? h("figcaption", null, im.caption) : null);
+        });
+        out.push(figs.length === 1 ? h("div", { class: "shots one" }, figs) : h("div", { class: "shots" }, figs));
+      } else if (it.type === "results") {
+        out.push(h("div", { class: "metrics" }, it.metrics.filter(m => filled(m.value)).map(m => h("div", { class: "metric" }, h("span", { class: "m-val" }, m.value), h("span", { class: "m-lbl" }, m.label || "")))));
+      }
+    });
+    return out;
+  }
+  function renderDetail(s, pg, i) {
+    const pid = pg.id;
+    const back = () => h("button", { class: "back", type: "button", "data-close": "" }, "← All " + labelOf(s).toLowerCase());
+    const blocks = (pg.blocks || []).map((b, n) => ({ b, n, id: `${pid}-s${n}` })).filter(x => filled(x.b.heading) || blockHas(x.b));
+    const visible = x => blockHas(x.b);
+    const meta = (pg.meta || []).filter(m => filled(m.label) && filled(m.value));
+    const links = (pg.links || []).filter(l => safeUrl(l.url));
+    zoomLists[pid] = [];
+    const secEls = blocks.map(({ b, id }) => h("section", { id, class: "cs-sec" + (visible({ b }) ? "" : " edit-only") },
+      filled(b.heading) ? h("h3", null, b.heading) : null,
+      ...renderItems(b, pid),
+      visible({ b }) ? null : h("p", { class: "empty-hint" }, "Empty section. Visitors won't see it until you add something.")
+    ));
+    const toc = blocks.filter(x => filled(x.b.heading)).map(x => h("a", { href: "#" + x.id, "data-jump": x.id, class: visible(x) ? null : "edit-only" }, x.b.heading));
+    const heroImg = img(pg.hero, pg.title);
+    return h("article", { class: "inner cs-detail", id: pid, hidden: true, "aria-labelledby": "h-" + pid },
+      h("div", { class: "row" }, back(), editRow(editBtn("Edit this page", () => editPage(s, i)))),
+      h("header", { class: "cs-head" },
+        filled(pg.tag) ? h("p", { class: "eyebrow" }, pg.tag) : null,
+        h("h2", { id: "h-" + pid }, pg.title || "Untitled"),
+        ...paragraphs(pg.summary, "lede"),
+        links.length ? h("div", { class: "page-links" }, links.map(l => h("a", { class: "link", href: safeUrl(l.url), target: "_blank", rel: "noopener" }, h("span", { class: "badge g", html: ARROW }), l.label || l.url))) : null),
+      heroImg ? h("div", { class: s.id === "leadership" ? "frame-slot lead-hero" : "thumb cs-hero" }, heroImg) : null,
+      meta.length ? h("dl", { class: "cs-meta" }, meta.map(m => h("div", null, h("dt", null, m.label), h("dd", null, m.value)))) : null,
+      blocks.length ? h("div", { class: "cs-body" }, h("nav", { class: "cs-toc", "aria-label": "On this page" }, toc), h("div", { class: "cs-sections" }, secEls, back())) : back()
+    );
+  }
+
+  function renderGallery(panel, s) {
+    const list = CONTENT.illustrations;
+    const tiles = list.map((a, i) => {
+      const pic = img(a.src, a.title);
+      const b = h("button", { type: "button", class: "art", "data-piece": s.list + ":" + i, "aria-label": `${a.title || "Artwork"}, learn more` },
+        pic || h("span", { class: "art-ph" }, a.title || "Artwork"),
+        h("span", { class: "art-cap" }, h("span", null, a.title || ""), h("span", null, "Learn more")));
+      if (!pic) b.style.aspectRatio = "4 / 5";
+      const wrap = h("div", { style: "position:relative;break-inside:avoid" }, ctlBar(list, i, () => editPiece(s, i), s.noun), b);
+      return wrap;
+    });
+    const add = h("button", { type: "button", class: "add-card edit-only", onclick: () => addPiece(s) }, "+ Add artwork");
+    panel.replaceChildren(h("div", { class: "inner" }, sectionHead(s),
+      list.length ? null : h("p", { class: "soon" }, "New work coming soon."),
+      h("div", { class: "masonry" }, tiles, add)));
+  }
+
+  function renderDesigns(panel, s) {
+    const list = CONTENT.designs;
+    const cards = list.map((d, i) => h("article", { class: "card" },
+      ctlBar(list, i, () => editPiece(s, i), s.noun),
+      thumbBox(d.thumb, d.title),
+      filled(d.tag) ? h("span", { class: "tag" }, d.tag) : null,
+      h("h3", null, d.title || "Untitled"),
+      ...paragraphs(d.summary, "small muted"),
+      readMore("Learn more", { "data-piece": s.list + ":" + i })
+    ));
+    const add = h("button", { type: "button", class: "add-card edit-only", onclick: () => addPiece(s) }, "+ Add " + s.noun);
+    panel.replaceChildren(h("div", { class: "inner" }, sectionHead(s),
+      list.length ? null : h("p", { class: "soon" }, "New work coming soon."),
+      h("div", { class: "grid" }, cards, add)));
+  }
+
+  function renderAbout(panel, s) {
+    const a = CONTENT.about;
+    const links = (a.links || []).filter(l => safeUrl(l.url));
+    const resume = safeUrl(a.resume);
+    const email = String(a.email || "").trim();
+    const copyBtn = h("button", { class: "copy", type: "button" }, "Copy");
+    const emailSpan = h("span", null, email);
+    copyBtn.addEventListener("click", () => {
+      const done = () => { copyBtn.textContent = "Copied"; setTimeout(() => copyBtn.textContent = "Copy", 1600); };
+      const fallback = () => { const r = document.createRange(); r.selectNodeContents(emailSpan); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); copyBtn.textContent = "Selected"; };
+      try { navigator.clipboard.writeText(email).then(done, fallback); } catch (e) { fallback(); }
+    });
+    const facts = (a.facts || []).filter(f => filled(f.label) && filled(f.value));
+    panel.replaceChildren(h("div", { class: "inner" },
+      sectionHead(s),
+      editRow(editBtn("Edit About", () => openEditor({ title: "About", schema: ABOUT_SCHEMA, value: a, onSave: v => { CONTENT.about = v; }, noun: "About" }))),
+      h("div", { class: "two" },
+        h("div", { style: "display:grid;gap:16px" },
+          ...paragraphs(a.lead, "lede"), ...paragraphs(a.body, "muted"),
+          links.length ? h("div", { class: "actions" }, links.map(l => h("a", { class: "link", href: safeUrl(l.url), target: "_blank", rel: "noopener" }, h("span", { class: "badge g", html: ARROW }), l.label || l.url))) : null),
+        h("div", { class: "about-side" },
+          img(a.photo, "Jennifer Nguyen") ? h("div", { class: "about-photo" }, img(a.photo, "Jennifer Nguyen")) : null,
+          resume ? h("a", { class: "resume", href: resume, target: "_blank", rel: "noopener" },
+            h("span", { class: "resume-doc", "aria-hidden": "true", html: "<span></span><span></span><span></span><span></span>" }),
+            h("span", { class: "resume-text" }, h("span", { class: "tag" }, "Resume · PDF"), h("span", { class: "resume-title" }, "View my resume"), h("span", { class: "small muted" }, "Opens in a new tab")),
+            h("span", { class: "badge g", html: ARROW })) : null,
+          (facts.length || email) ? h("dl", { class: "facts" },
+            facts.map(f => h("div", null, h("dt", null, f.label), h("dd", null, f.value))),
+            email ? h("div", null, h("dt", null, "Email"), h("dd", null, emailSpan, copyBtn)) : null) : null))
+    ));
+  }
+
+  function renderNav() {
+    const ol = $("#phases");
+    ol.replaceChildren(...SECTIONS.map((s, i) => h("li", null, h("button", { class: "phase", type: "button", "data-go": i, "aria-label": `${labelOf(s)} (${s.phase})`, "aria-current": i === current ? "true" : "false" },
+      h("img", { class: "moon-img", src: MOONS[i], alt: "", width: 104, height: 104 }),
+      h("span", { class: "lbl" }, labelOf(s), h("span", { class: "pn" }, s.phase))))));
+    $("#mark-text").textContent = CONTENT.site.mark || "";
+    $("#contact-link").textContent = CONTENT.site.contactLabel || "Contact";
+    $("#contact-link").parentElement.hidden = !filled(CONTENT.site.contactLabel);
+  }
+
+  function renderAll() {
+    SECTIONS.forEach((s, i) => {
+      const p = panels[i], keep = p.scrollTop;
+      if (s.kind === "home") renderHome(p);
+      else if (s.kind === "pages") renderPages(p, s);
+      else if (s.kind === "gallery") renderGallery(p, s);
+      else if (s.kind === "designs") renderDesigns(p, s);
+      else if (s.kind === "about") renderAbout(p, s);
+      p.scrollTop = keep;
+    });
+    renderNav();
+    const idx = current < 0 ? 0 : current; current = -1; setCurrent(idx);
+  }
+
+  // ---------- Detail pages ----------
+  function showDetail(id, quiet) {
+    const d = document.getElementById(id); if (!d || !d.classList.contains("cs-detail")) return;
+    const p = d.closest(".panel");
+    p.querySelector(".cs-list").hidden = true;
+    p.querySelectorAll(".cs-detail").forEach(x => x.hidden = x !== d);
+    openDetail[p.id] = id;
+    if (quiet) return;
+    p.scrollTop = 0;
+    try { history.replaceState(null, "", "#" + id); } catch (e) {}
+    const hh = d.querySelector("h2"); hh.setAttribute("tabindex", "-1"); hh.focus({ preventScroll: true });
+  }
+  function closeDetail(btn) {
+    const p = btn.closest(".panel");
+    p.querySelectorAll(".cs-detail").forEach(x => x.hidden = true);
+    p.querySelector(".cs-list").hidden = false; p.scrollTop = 0; openDetail[p.id] = null;
+    try { history.replaceState(null, "", "#" + p.id); } catch (e) {}
+  }
+
+  // ---------- Lightbox (illustrations and design) ----------
+  const lb = $("#lightbox");
+  let lbList = [], lbIdx = 0, lbOpener = null, lbKind = "";
+  function setMedia(src, alt, label) {
+    const media = $("#lb-media"); const i = img(src, alt);
+    media.replaceChildren(i || h("span", { class: "art-ph" }, label));
+  }
+  function showPiece(i) {
+    lbIdx = (i + lbList.length) % lbList.length;
+    const a = lbList[lbIdx], isDesign = lbKind === "designs";
+    setMedia(a.src || a.thumb, a.title, "No image yet");
+    $("#lb-title").textContent = a.title || "";
+    $("#lb-meta").textContent = a.meta || "";
+    $("#lb-desc-h").hidden = !isDesign || !filled(a.description);
+    $("#lb-desc").replaceChildren(...paragraphs(a.description));
+    $("#lb-purpose-box").hidden = !(isDesign && filled(a.purpose));
+    $("#lb-purpose").replaceChildren(...paragraphs(a.purpose));
+    const links = (a.links || []).filter(l => safeUrl(l.url));
+    $("#lb-links").replaceChildren(...links.map(l => h("a", { href: safeUrl(l.url), target: "_blank", rel: "noopener" }, (l.label || l.url) + " ↗")));
+    $("#lb-links").hidden = !links.length;
+    $("#lb-count").textContent = `${lbIdx + 1} of ${lbList.length}`;
+    $("#lb-prev").hidden = $("#lb-next").hidden = lbList.length < 2;
+    const views = (a.process || []).filter(p => safeUrl(p.src, true) || filled(p.caption));
+    const box = $("#lb-process"), steps = $("#lb-steps"), notes = $("#lb-notes");
+    box.hidden = !(views.length || filled(a.processNotes));
+    notes.replaceChildren(...paragraphs(a.processNotes)); notes.hidden = !filled(a.processNotes);
+    steps.replaceChildren(); steps.hidden = !views.length;
+    if (!views.length) return;
+    [{ src: a.src || a.thumb, caption: "Final" }, ...views].forEach((v, n) => {
+      const t = h("span", { class: "lb-thumb" }, img(v.src, "") || "—");
+      const b = h("button", { type: "button", class: "lb-step", "aria-pressed": n === 0 ? "true" : "false", "aria-label": filled(v.caption) ? null : `Step ${n}` }, t, filled(v.caption) ? h("span", { class: "lb-cap" }, v.caption) : null);
+      b.addEventListener("click", () => {
+        steps.querySelectorAll(".lb-step").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+        setMedia(v.src, filled(v.caption) ? `${a.title}: ${v.caption}` : a.title, "No image for this step");
+      });
+      steps.append(b);
+    });
+  }
+  function openPiece(key, opener) {
+    const [list, i] = key.split(":");
+    lbKind = list; lbList = CONTENT[list]; lbOpener = opener;
+    if (!lbList || !lbList.length) return;
+    showPiece(+i);
+    try { lb.showModal(); } catch (e) { lb.setAttribute("open", ""); }
+  }
+  $("#lb-close").addEventListener("click", () => lb.close());
+  $("#lb-prev").addEventListener("click", () => showPiece(lbIdx - 1));
+  $("#lb-next").addEventListener("click", () => showPiece(lbIdx + 1));
+  lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
+  lb.addEventListener("close", () => lbOpener && lbOpener.focus && lbOpener.focus());
+  lb.addEventListener("keydown", e => {
+    if (e.key === "ArrowRight") { e.stopPropagation(); showPiece(lbIdx + 1); }
+    if (e.key === "ArrowLeft") { e.stopPropagation(); showPiece(lbIdx - 1); }
+  });
+
+  // ---------- Global clicks ----------
+  function openZoom(key, opener) {
+    const [pid, i] = key.split(":");
+    lbKind = "zoom"; lbList = zoomLists[pid] || []; lbOpener = opener;
+    if (!lbList.length) return;
+    showPiece(+i);
+    try { lb.showModal(); } catch (e) { lb.setAttribute("open", ""); }
+  }
+  document.addEventListener("click", e => {
+    const zm = e.target.closest("[data-zoom]"); if (zm) { e.preventDefault(); openZoom(zm.dataset.zoom, zm); return; }
+    const g = e.target.closest("[data-go]"); if (g) { e.preventDefault(); go(+g.dataset.go); return; }
+    const o = e.target.closest("[data-open]"); if (o) { e.preventDefault(); showDetail(o.dataset.open); return; }
+    const c = e.target.closest("[data-close]"); if (c) { e.preventDefault(); closeDetail(c); return; }
+    const pc = e.target.closest("[data-piece]"); if (pc) { e.preventDefault(); openPiece(pc.dataset.piece, pc); return; }
+    const j = e.target.closest("[data-jump]");
+    if (j) { e.preventDefault(); const t = document.getElementById(j.dataset.jump); if (t) t.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); }
+  });
+
+  // ================= EDIT MODE =================
+  const LINK_ITEM = [{ k: "label", t: "text", label: "Link text" }, { k: "url", t: "url", label: "Web address", hint: "Starts with https://" }];
+  const STEP_ITEM = [{ k: "src", t: "image", label: "Image" }, { k: "caption", t: "text", label: "Step name", hint: "Name it anything, like \"Thumbnails\" or \"Rendering\"." }];
+  const BLOCK_SCHEMA = [
+    { k: "heading", t: "text", label: "Heading" },
+    { k: "items", t: "items", label: "Content", hint: "Add text, steps, images and results in any order. Use the arrows to move them." },
+  ];
+  const PAGE_SCHEMA = [
+    { k: "title", t: "text", label: "Title" },
+    { k: "tag", t: "text", label: "Label", hint: "Small text above the title, like \"UI/UX · In progress\"." },
+    { k: "summary", t: "textarea", label: "Summary", hint: "One or two sentences shown on the card and at the top of the page." },
+    { k: "thumb", t: "image", label: "Card thumbnail" },
+    { k: "hero", t: "image", label: "Page image", hint: "Optional large image at the top of the page." },
+    { k: "links", t: "list", label: "Links", item: LINK_ITEM, add: "Add link", name: "label" },
+    { k: "meta", t: "list", label: "Quick facts", item: [{ k: "label", t: "text", label: "Label", hint: "Like Role or Timeline" }, { k: "value", t: "text", label: "Value" }], add: "Add fact", name: "label" },
+    { k: "blocks", t: "list", label: "Page sections", item: BLOCK_SCHEMA, add: "Add section", name: "heading", collapse: true },
+  ];
+  const ART_SCHEMA = [
+    { k: "title", t: "text", label: "Title" },
+    { k: "src", t: "image", label: "Artwork" },
+    { k: "meta", t: "text", label: "Details line", hint: "Like \"Clip Studio Paint · 2026\"." },
+    { k: "description", t: "textarea", label: "Description" },
+    { k: "process", t: "list", label: "Process steps", item: STEP_ITEM, add: "Add process step", name: "caption", hint: "Leave empty to hide Process." },
+    { k: "processNotes", t: "textarea", label: "Process notes" },
+    { k: "links", t: "list", label: "Links", item: LINK_ITEM, add: "Add link", name: "label" },
+  ];
+  const DESIGN_SCHEMA = [
+    { k: "title", t: "text", label: "Title" },
+    { k: "tag", t: "text", label: "Card label", hint: "Like \"Graphics\" or \"Interaction\"." },
+    { k: "summary", t: "textarea", label: "Card summary" },
+    { k: "thumb", t: "image", label: "Card thumbnail" },
+    { k: "src", t: "image", label: "Main image", hint: "Shown large in Learn more. Uses the thumbnail if empty." },
+    { k: "meta", t: "text", label: "Details line", hint: "Like \"Graphic design · 2026\"." },
+    { k: "description", t: "textarea", label: "Description" },
+    { k: "purpose", t: "textarea", label: "Purpose" },
+    { k: "process", t: "list", label: "Process steps", item: STEP_ITEM, add: "Add process step", name: "caption" },
+    { k: "processNotes", t: "textarea", label: "Process notes" },
+    { k: "links", t: "list", label: "Links", item: LINK_ITEM, add: "Add link", name: "label" },
+  ];
+  const SECTION_SCHEMA = [
+    { k: "label", t: "text", label: "Title", hint: "Also the name under this moon." },
+    { k: "intro", t: "textarea", label: "Intro" },
+  ];
+  const SITE_SCHEMA = [
+    { k: "homeTitle", t: "text", label: "Home title" },
+    { k: "homeHint", t: "text", label: "Line under the title" },
+    { k: "mark", t: "text", label: "Text next to the logo" },
+    { k: "contactLabel", t: "text", label: "Top-right link", hint: "Goes to About. Leave empty to hide it." },
+    { k: "labels", t: "list", label: "Moon names", item: [{ k: "label", t: "text", label: "Name" }], name: "label", fixed: true },
+  ];
+  const ABOUT_SCHEMA = [
+    { k: "photo", t: "image", label: "Photo of you", hint: "A portrait works best. It shows above your resume." },
+    { k: "lead", t: "textarea", label: "Intro paragraph" },
+    { k: "body", t: "textarea", label: "More about you" },
+    { k: "links", t: "list", label: "Links", item: LINK_ITEM, add: "Add link", name: "label" },
+    { k: "resume", t: "file", label: "Resume (PDF)", accept: "application/pdf" },
+    { k: "email", t: "text", label: "Email" },
+    { k: "facts", t: "list", label: "Quick facts", item: [{ k: "label", t: "text", label: "Label" }, { k: "value", t: "text", label: "Value" }], add: "Add fact", name: "label" },
+  ];
+
+  function emptyFrom(schema) {
+    const o = {};
+    schema.forEach(f => { o[f.k] = f.t === "list" ? [] : ""; });
+    return o;
+  }
+
+  // ----- uploads -----
+  const b64 = blob => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result)); r.onerror = rej; r.readAsDataURL(blob); });
+  async function shrinkImage(file) {
+    if (!/^image\/(png|jpeg|webp)$/.test(file.type)) return file;
+    try {
+      const bmp = await createImageBitmap(file);
+      const scale = Math.min(1, 2400 / Math.max(bmp.width, bmp.height));
+      const c = document.createElement("canvas"); c.width = Math.round(bmp.width * scale); c.height = Math.round(bmp.height * scale);
+      c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+      const out = await new Promise(r => c.toBlob(r, "image/webp", 0.9));
+      if (out && (out.size < file.size || scale < 1)) return new File([out], file.name.replace(/\.\w+$/, "") + ".webp", { type: "image/webp" });
+    } catch (e) {}
+    return file;
+  }
+  async function uploadFile(file) {
+    const f = file.type.startsWith("image/") ? await shrinkImage(file) : file;
+    if (f.size > 3_200_000) throw new Error("That file is over 3 MB. Try a smaller one.");
+    const dataUrl = await b64(f);
+    if (mode === "preview") return dataUrl; // preview keeps images in this browser only
+    const r = await fetch("/api/upload", {
+      method: "POST", headers: { "Content-Type": "application/json", "x-edit-password": password },
+      body: JSON.stringify({ name: f.name, type: f.type, data: dataUrl.split(",")[1] }),
+    });
+    const j = await r.json().catch(() => ({}));
+    if (r.status === 401) { lockEditing(); throw new Error("Your password didn't work. Unlock edit mode again."); }
+    if (!r.ok) throw new Error(j.error || "Upload failed");
+    return j.url;
+  }
+
+  // ----- form builder -----
+  let busy = 0;
+  function setBusy(d) { busy += d; $("#ed-save").disabled = busy > 0; $("#ed-status").textContent = busy > 0 ? "Uploading…" : ""; }
+  function field(f, obj) {
+    const id = "f" + Math.random().toString(36).slice(2, 8);
+    const wrap = h("div", { class: "f" });
+    const hint = f.hint ? h("span", { class: "hint", id: id + "-h" }, f.hint) : null;
+    if (f.t === "text" || f.t === "url") {
+      wrap.append(...[h("label", { for: id }, f.label), h("input", { id, type: f.t === "url" ? "url" : "text", value: obj[f.k] || "", "aria-describedby": hint ? id + "-h" : null, oninput: e => { obj[f.k] = e.target.value; } }), hint].filter(Boolean));
+    } else if (f.t === "textarea") {
+      const ta = h("textarea", { id, "aria-describedby": hint ? id + "-h" : null, oninput: e => { obj[f.k] = e.target.value; } }); ta.value = obj[f.k] || "";
+      const commit = (v, a, b) => { ta.value = v; obj[f.k] = v; ta.focus(); ta.setSelectionRange(a, b); ta.dispatchEvent(new Event("input", { bubbles: true })); };
+      const wrapSel = mark => {
+        const v = ta.value, a = ta.selectionStart, b = ta.selectionEnd, sel = v.slice(a, b);
+        const L = mark.length;
+        if (v.slice(a - L, a) === mark && v.slice(b, b + L) === mark) return commit(v.slice(0, a - L) + sel + v.slice(b + L), a - L, b - L);
+        if (sel.startsWith(mark) && sel.endsWith(mark) && sel.length >= 2 * L) return commit(v.slice(0, a) + sel.slice(L, -L) + v.slice(b), a, b - 2 * L);
+        const t = sel || "text";
+        commit(v.slice(0, a) + mark + t + mark + v.slice(b), a + L, a + L + t.length);
+      };
+      const bullets = () => {
+        const v = ta.value; let a = ta.selectionStart, b = ta.selectionEnd;
+        const ls = v.lastIndexOf("\n", a - 1) + 1; let le = v.indexOf("\n", b); if (le < 0) le = v.length;
+        const lines = v.slice(ls, le).split("\n");
+        if (lines.length === 1 && !lines[0].trim()) return commit(v.slice(0, ls) + "- " + v.slice(le), ls + 2, ls + 2);
+        const on = lines.every(l => !l.trim() || BULLET.test(l));
+        const nl = lines.map(l => !l.trim() ? l : on ? l.replace(BULLET, "") : "- " + l).join("\n");
+        commit(v.slice(0, ls) + nl + v.slice(le), ls, ls + nl.length);
+      };
+      const tb = (label, title, fn, cls) => h("button", { type: "button", class: "fmt " + (cls || ""), title, "aria-label": title, onmousedown: e => e.preventDefault(), onclick: fn }, label);
+      const bar = h("div", { class: "fmt-bar", role: "toolbar", "aria-label": "Text formatting" },
+        tb("B", "Bold (Ctrl+B)", () => wrapSel("**"), "b"), tb("I", "Italic (Ctrl+I)", () => wrapSel("*"), "i"),
+        tb("U", "Underline (Ctrl+U)", () => wrapSel("__"), "u"), tb("• List", "Bullet points", bullets));
+      ta.addEventListener("keydown", e => {
+        if (!(e.ctrlKey || e.metaKey)) return;
+        const k = e.key.toLowerCase();
+        if (k === "b") { e.preventDefault(); wrapSel("**"); } else if (k === "i") { e.preventDefault(); wrapSel("*"); } else if (k === "u") { e.preventDefault(); wrapSel("__"); }
+      });
+      ta.addEventListener("keydown", e => {
+        if (e.key !== "Enter" || e.shiftKey) return;
+        const v = ta.value, a = ta.selectionStart, ls = v.lastIndexOf("\n", a - 1) + 1, line = v.slice(ls, a);
+        if (!BULLET.test(line)) return;
+        e.preventDefault();
+        if (!line.replace(BULLET, "").trim()) return commit(v.slice(0, ls) + v.slice(a), ls, ls);
+        commit(v.slice(0, a) + "\n- " + v.slice(ta.selectionEnd), a + 3, a + 3);
+      });
+      wrap.append(...[h("label", { for: id }, f.label), bar, ta, hint].filter(Boolean));
+    } else if (f.t === "image" || f.t === "file") {
+      const isImg = f.t === "image";
+      const prev = h("div", { class: "img-prev" });
+      const url = h("input", { type: "url", id, placeholder: isImg ? "or paste an image link" : "or paste a link", value: String(obj[f.k] || "").startsWith("data:") ? "" : obj[f.k] || "" });
+      const paint = () => {
+        const v = obj[f.k];
+        prev.replaceChildren(isImg ? (img(v, "") || "No image") : (filled(v) ? "PDF added" : "No file"));
+        url.value = String(v || "").startsWith("data:") ? "" : v || "";
+      };
+      url.addEventListener("input", () => { obj[f.k] = url.value.trim(); paint(); });
+      const input = h("input", { type: "file", accept: f.accept || "image/png,image/jpeg,image/webp,image/gif", hidden: true });
+      const up = h("button", { type: "button", class: "b-sm solid" }, isImg ? "Upload image" : "Upload file");
+      const rm = h("button", { type: "button", class: "b-sm" }, "Remove");
+      up.addEventListener("click", () => input.click());
+      rm.addEventListener("click", () => { obj[f.k] = ""; paint(); });
+      input.addEventListener("change", async () => {
+        const file = input.files[0]; if (!file) return;
+        up.disabled = true; up.textContent = "Uploading…"; setBusy(1);
+        try { obj[f.k] = await uploadFile(file); paint(); }
+        catch (err) { toast(err.message, true); }
+        finally { up.disabled = false; up.textContent = isImg ? "Upload image" : "Upload file"; setBusy(-1); input.value = ""; }
+      });
+      paint();
+      wrap.append(h("span", { class: "f-title" }, f.label), h("div", { class: "img-f" }, prev, h("div", { class: "img-ctl" }, h("div", { class: "row" }, up, rm), url, input, hint || null)));
+    } else if (f.t === "items") {
+      if (!Array.isArray(obj[f.k])) obj[f.k] = [];
+      const arr = obj[f.k];
+      const TYPES = {
+        text: { label: "Text", make: () => ({ type: "text", text: "" }), fields: [{ k: "text", t: "textarea", label: "Text", hint: "Each new line starts a new paragraph." }] },
+        step: { label: "Step", make: () => ({ type: "step", title: "", text: "" }), fields: [{ k: "title", t: "text", label: "Step title" }, { k: "text", t: "textarea", label: "Step text" }] },
+        images: { label: "Images", make: () => ({ type: "images", images: [{ src: "", caption: "" }] }), fields: [{ k: "images", t: "list", label: "Images", item: [{ k: "src", t: "image", label: "Image" }, { k: "caption", t: "text", label: "Caption" }], add: "Add another image", name: "caption", hint: "One image shows at its own size. Two or more sit side by side." }] },
+        results: { label: "Results", make: () => ({ type: "results", metrics: [{ value: "", label: "" }] }), fields: [{ k: "metrics", t: "list", label: "Result boxes", item: [{ k: "value", t: "text", label: "Number or result", hint: "Keep it short, like 40%" }, { k: "label", t: "text", label: "What it measures" }], add: "Add result", name: "label" }] },
+      };
+      const preview = it => {
+        const t = TYPES[it.type] ? TYPES[it.type].label : "Item";
+        const txt = it.type === "text" ? it.text : it.type === "step" ? it.title : it.type === "images" ? `${(it.images || []).length} image(s)` : `${(it.metrics || []).length} result(s)`;
+        return t + (filled(txt) ? " · " + String(txt).replace(/\s+/g, " ").slice(0, 48) : "");
+      };
+      const box = h("div", { class: "lst" });
+      const paint = (focusIdx) => {
+        box.replaceChildren(...arr.map((it, i) => {
+          const def = TYPES[it.type] || TYPES.text;
+          const name = h("span", { class: "lst-name" }, preview(it));
+          const body = h("div", { class: "lst-body" }, def.fields.map(sf => field(sf, it)));
+          body.addEventListener("input", () => { name.textContent = preview(it); });
+          const mv = (d, t) => h("button", { type: "button", "aria-label": d < 0 ? "Move up" : "Move down", disabled: (d < 0 ? i === 0 : i === arr.length - 1) || null, onclick: () => { [arr[i], arr[i + d]] = [arr[i + d], arr[i]]; paint(i + d); } }, t);
+          const el = h("div", { class: "lst-item item-" + it.type }, h("div", { class: "lst-head" }, h("span", { class: "it-tag" }, def.label), name, mv(-1, "↑"), mv(1, "↓"), h("button", { type: "button", onclick: () => { arr.splice(i, 1); paint(); } }, "Remove")), body);
+          return el;
+        }));
+        if (focusIdx != null && box.children[focusIdx]) box.children[focusIdx].scrollIntoView({ block: "nearest" });
+      };
+      paint();
+      const adds = h("div", { class: "row add-row" }, Object.entries(TYPES).map(([k, d]) => h("button", { type: "button", class: "b-sm", onclick: () => {
+        arr.push(d.make()); paint(arr.length - 1);
+        const last = box.lastElementChild; const inp = last && last.querySelector("input[type=text],textarea"); inp && inp.focus();
+      } }, "+ " + d.label)));
+      wrap.append(...[h("span", { class: "f-title" }, f.label), hint, box, adds].filter(Boolean));
+    } else if (f.t === "list") {
+      if (!Array.isArray(obj[f.k])) obj[f.k] = [];
+      const arr = obj[f.k];
+      const box = h("div", { class: "lst" });
+      const paint = () => {
+        box.replaceChildren(...arr.map((item, i) => {
+          const name = h("span", { class: "lst-name" }, (f.name && item[f.name]) || `${f.label.replace(/s$/, "")} ${i + 1}`);
+          const body = h("div", { class: "lst-body" }, f.item.map(sf => field(sf, item)));
+          const el = h("div", { class: "lst-item" + (f.collapse && arr.length > 1 ? " closed" : "") });
+          const tog = f.collapse ? h("button", { type: "button", onclick: () => { el.classList.toggle("closed"); tog.textContent = el.classList.contains("closed") ? "Open" : "Close"; } }, f.collapse && arr.length > 1 ? "Open" : "Close") : null;
+          const mv = (d, t) => h("button", { type: "button", "aria-label": d < 0 ? "Move up" : "Move down", disabled: (d < 0 ? i === 0 : i === arr.length - 1) || null, onclick: () => { [arr[i], arr[i + d]] = [arr[i + d], arr[i]]; paint(); } }, t);
+          const head = h("div", { class: "lst-head" }, name, tog, f.fixed ? null : mv(-1, "↑"), f.fixed ? null : mv(1, "↓"),
+            f.fixed ? null : h("button", { type: "button", onclick: () => { arr.splice(i, 1); paint(); } }, "Remove"));
+          body.addEventListener("input", () => { if (f.name) name.textContent = item[f.name] || `${f.label.replace(/s$/, "")} ${i + 1}`; });
+          el.append(head, body);
+          return el;
+        }));
+      };
+      paint();
+      const addB = f.fixed ? null : h("button", { type: "button", class: "b-sm" }, "+ " + (f.add || "Add"));
+      if (addB) addB.addEventListener("click", () => { arr.push(emptyFrom(f.item)); paint(); const last = box.lastElementChild; if (last) { last.classList.remove("closed"); const inp = last.querySelector("input,textarea"); inp && inp.focus(); } });
+      wrap.append(...[h("span", { class: "f-title" }, f.label), hint, box, addB].filter(Boolean));
+    }
+    return wrap;
+  }
+
+  const editor = $("#editor");
+  let edCfg = null, edDraft = null;
+  function openEditor(cfg) {
+    if (!editing) return;
+    edCfg = cfg; edDraft = clone(cfg.value || {});
+    $("#ed-title").textContent = cfg.title;
+    $("#ed-sub").textContent = mode === "preview" ? "Preview mode: changes are saved in this browser only." : "Saving publishes right away.";
+    $("#ed-body").replaceChildren(...cfg.schema.map(f => field(f, edDraft)));
+    $("#ed-status").textContent = ""; $("#ed-status").className = "ed-status";
+    $("#ed-save").disabled = false; busy = 0;
+    $("#ed-delete").hidden = !cfg.onDelete;
+    try { editor.showModal(); } catch (e) { editor.setAttribute("open", ""); }
+    const first = $("#ed-body input, #ed-body textarea"); first && first.focus();
+  }
+  $("#ed-cancel").addEventListener("click", () => editor.close());
+  $("#ed-save").addEventListener("click", async () => {
+    if (!edCfg) return;
+    $("#ed-save").disabled = true; $("#ed-status").textContent = "Publishing…";
+    const draft = clone(edDraft);
+    const ok = await commit(() => edCfg.onSave(draft), edCfg.saved || "Saved");
+    if (ok) editor.close();
+    else { $("#ed-save").disabled = false; $("#ed-status").textContent = "Couldn't publish. Your edits are still here, try again."; $("#ed-status").className = "ed-status err"; }
+  });
+  let delArmed = false;
+  $("#ed-delete").addEventListener("click", async e => {
+    if (!edCfg || !edCfg.onDelete) return;
+    if (!delArmed) { delArmed = true; e.target.textContent = "Confirm delete"; setTimeout(() => { delArmed = false; e.target.textContent = "Delete"; }, 4000); return; }
+    delArmed = false; e.target.textContent = "Delete";
+    if (await commit(() => edCfg.onDelete(), "Deleted")) editor.close();
+  });
+
+  function editPage(s, i) {
+    const list = CONTENT[s.list];
+    openEditor({ title: `Edit ${s.noun}`, schema: PAGE_SCHEMA, value: normalizePage(list[i]), saved: "Saved",
+      onSave: v => { v.id = list[i].id; list[i] = v; }, onDelete: () => { list.splice(i, 1); openDetail[s.id] = null; } });
+  }
+  function addPage(s) {
+    const list = CONTENT[s.list];
+    const blank = emptyFrom(PAGE_SCHEMA);
+    blank.blocks = s.id === "case-studies"
+      ? ["Purpose", "Process", "Product", "Impact", "Reflection"].map(t => ({ heading: t, items: [] }))
+      : ["Context", "My role", "Impact", "Reflection"].map(t => ({ heading: t, items: [] }));
+    openEditor({ title: `New ${s.noun}`, schema: PAGE_SCHEMA, value: blank, saved: "Added",
+      onSave: v => { v.id = slug(v.title); list.push(v); } });
+  }
+  function editPiece(s, i) {
+    const list = CONTENT[s.list];
+    openEditor({ title: `Edit ${s.noun}`, schema: s.kind === "gallery" ? ART_SCHEMA : DESIGN_SCHEMA, value: list[i],
+      onSave: v => { v.id = list[i].id; list[i] = v; }, onDelete: () => list.splice(i, 1) });
+  }
+  function addPiece(s) {
+    const list = CONTENT[s.list], schema = s.kind === "gallery" ? ART_SCHEMA : DESIGN_SCHEMA;
+    openEditor({ title: `New ${s.noun}`, schema, value: emptyFrom(schema), saved: "Added",
+      onSave: v => { v.id = slug(v.title); list.push(v); } });
+  }
+
+  // Apply a change, publish it, and undo it if publishing fails.
+  async function commit(change, msg) {
+    const before = clone(CONTENT);
+    change();
+    const ok = await publish(msg);
+    if (!ok) { CONTENT = before; renderAll(); }
+    return ok;
+  }
+  async function publish(msg) {
+    renderAll();
+    if (mode === "preview") {
+      try { localStorage.setItem(PREVIEW_KEY, JSON.stringify(CONTENT)); toast(msg + " (preview, this browser only)"); return true; }
+      catch (e) { toast("This browser is out of space for the preview. Try smaller images.", true); return false; }
+    }
+    try {
+      const r = await fetch("/api/content", { method: "PUT", headers: { "Content-Type": "application/json", "x-edit-password": password }, body: JSON.stringify(CONTENT) });
+      const j = await r.json().catch(() => ({}));
+      if (r.status === 401) { toast("Your password didn't work. Unlock edit mode again.", true); lockEditing(); return false; }
+      if (!r.ok) throw new Error(j.error || `Error ${r.status}`);
+      toast(msg + " and published");
+      return true;
+    } catch (e) {
+      toast("Couldn't publish: " + e.message, true);
+      return false;
+    }
+  }
+
+  // ----- unlock / lock -----
+  const loginDlg = $("#login");
+  function startEditing() {
+    editing = true; document.body.classList.add("editing");
+    $("#edit-mode").textContent = mode === "preview" ? "Preview" : "Live";
+    $("#edit-bar").hidden = false;
+    try { sessionStorage.setItem("lunar-pw", password); } catch (e) {}
+  }
+  function lockEditing() {
+    editing = false; password = ""; document.body.classList.remove("editing"); $("#edit-bar").hidden = true;
+    try { sessionStorage.removeItem("lunar-pw"); } catch (e) {}
+    if (editor.open) editor.close();
+  }
+  function askLogin() {
+    if (editing) return;
+    $("#login-pw").value = ""; $("#login-msg").textContent = mode === "preview" ? "Preview mode: this copy isn't connected to your server, so any password works and changes stay in this browser." : "";
+    try { loginDlg.showModal(); } catch (e) { loginDlg.setAttribute("open", ""); }
+    $("#login-pw").focus();
+  }
+  $("#login-form").addEventListener("submit", async e => {
+    e.preventDefault();
+    const pw = $("#login-pw").value;
+    if (mode === "preview") { password = pw; loginDlg.close(); startEditing(); toast("Edit mode on (preview)"); return; }
+    $("#login-go").disabled = true; $("#login-msg").textContent = "Checking…";
+    try {
+      const r = await fetch("/api/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: pw }) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(j.error || "Incorrect password");
+      password = pw; loginDlg.close(); startEditing(); toast("Edit mode on");
+    } catch (err) { $("#login-msg").textContent = err.message; }
+    finally { $("#login-go").disabled = false; }
+  });
+  $("#login-cancel").addEventListener("click", () => loginDlg.close());
+  $("#lock-btn").addEventListener("click", () => { lockEditing(); toast("Edit mode off"); });
+  $("#backup-btn").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(CONTENT, null, 2)], { type: "application/json" });
+    const a = h("a", { href: URL.createObjectURL(blob), download: `portfolio-backup-${new Date().toISOString().slice(0, 10)}.json` });
+    document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  });
+  // Secret unlock: triple-click the logo
+  let clicks = 0, clickTimer = null;
+  $("#mark").addEventListener("click", () => {
+    clicks++; clearTimeout(clickTimer); clickTimer = setTimeout(() => clicks = 0, 600);
+    if (clicks >= 3) { clicks = 0; askLogin(); }
+  });
+
+  // ================= MOTION: camera, sky, kitty =================
+  function litPath(cx, cy, r, p) {
+    p = ((p % 1) + 1) % 1;
+    const k = Math.cos(2 * Math.PI * p), rx = Math.abs(k) * r;
+    const top = `${cx} ${cy - r}`, bot = `${cx} ${cy + r}`;
+    if (p < 0.5) return `M${top}A${r} ${r} 0 0 1 ${bot}A${rx} ${r} 0 0 ${k > 0 ? 0 : 1} ${top}Z`;
+    return `M${top}A${r} ${r} 0 0 0 ${bot}A${rx} ${r} 0 0 ${k > 0 ? 1 : 0} ${top}Z`;
+  }
+  const bigLit = $("#bigmoon-lit"), bigMoon = $("#bigmoon");
+  let target = 0, cam = 0, current = -1;
+
+  function go(i) {
+    i = Math.max(0, Math.min(SECTIONS.length - 1, i));
+    target = i; if (reduce) cam = i;
+    flyTo(i); setCurrent(i);
+    const p = panels[i], open = openDetail[p.id];
+    try { history.replaceState(null, "", "#" + (open || SECTIONS[i].id)); } catch (e) {}
+  }
+  function setCurrent(i) {
+    if (i === current) return;
+    current = i;
+    document.querySelectorAll(".phase").forEach((b, j) => b.setAttribute("aria-current", j === i ? "true" : "false"));
+    panels.forEach((p, j) => { p.setAttribute("aria-hidden", j === i ? "false" : "true"); p.inert = j !== i; });
+    $(".app").classList.toggle("at-home", i === 0);
+    document.body.classList.toggle("away", i !== 0);
+  }
+  document.addEventListener("keydown", e => {
+    if (e.target.closest("input, textarea, select") || lb.open || editor.open || loginDlg.open) return;
+    if (e.key === "ArrowRight") go(target + 1);
+    if (e.key === "ArrowLeft") go(target - 1);
+  });
+  let sx = null;
+  $("#stage").addEventListener("touchstart", e => { sx = e.touches[0].clientX; }, { passive: true });
+  $("#stage").addEventListener("touchend", e => {
+    if (sx == null) return; const dx = e.changedTouches[0].clientX - sx; sx = null;
+    if (Math.abs(dx) > 60) go(target + (dx < 0 ? 1 : -1));
+  });
+  // Keep the stage from being scrolled sideways by focus jumps; the camera handles horizontal movement.
+  $("#stage").addEventListener("scroll", e => { e.currentTarget.scrollLeft = 0; });
+  addEventListener("hashchange", () => {
+    const hash = decodeURIComponent(location.hash.slice(1));
+    const i = SECTIONS.findIndex(s => s.id === hash);
+    const page = hash && document.getElementById(hash);
+    if (page && page.classList.contains("cs-detail")) { go(panels.indexOf(page.closest(".panel"))); showDetail(hash, true); }
+    else if (i >= 0 && i !== current) go(i);
+  });
+  panels.forEach(p => p.addEventListener("scroll", () => {
+    const d = [...p.querySelectorAll(".cs-detail")].find(x => !x.hidden); if (!d) return;
+    let on = null; const top = p.getBoundingClientRect().top + 120;
+    d.querySelectorAll(".cs-sec").forEach(sec => { if (sec.getBoundingClientRect().top < top) on = sec.id; });
+    d.querySelectorAll(".cs-toc a").forEach(a => a.classList.toggle("on", a.dataset.jump === on));
+  }, { passive: true }));
+
+  // Sky: hand-drawn stars, each twinkling on its own, plus shooting stars
+  const cv = $("#sky"), ctx = cv.getContext("2d");
+  let W = 0, H = 0;
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const skyImg = new Image(); skyImg.src = "assets/stars.webp";
+  const SKY = [[243,0,11,5],[255,0,6,3],[285,0,47,39],[617,0,13,5],[654,0,17,4],[789,0,54,35],[1281,0,11,5],[1293,0,6,3],[1323,0,47,39],[1655,0,13,5],[1692,0,17,4],[1890,0,30,48],[1792,1,5,5],[1859,1,7,7],[734,2,17,16],[1772,2,22,18],[1796,8,30,39],[1783,21,5,5],[961,23,79,53],[1081,23,7,6],[919,25,28,28],[1051,25,7,7],[1641,30,77,46],[637,36,43,40],[74,43,57,60],[1112,43,57,56],[1787,46,5,5],[879,47,21,21],[1253,48,15,14],[1720,48,132,76],[682,49,98,75],[779,54,20,25],[856,66,21,21],[926,78,32,32],[1260,86,55,55],[123,110,7,8],[1102,110,9,9],[1161,110,7,8],[98,112,39,29],[591,117,62,78],[345,118,78,56],[1383,118,78,56],[517,128,35,36],[820,129,41,40],[1858,129,41,40],[41,132,40,38],[127,143,7,7],[1165,143,7,7],[854,152,5,5],[1892,152,5,5],[822,153,5,5],[1860,153,5,5],[29,169,10,10],[1067,169,10,10],[138,174,7,7],[984,190,23,23],[649,205,38,41],[99,206,55,54],[1016,215,30,30],[906,218,50,51],[1638,219,32,32],[156,221,17,17],[1143,222,47,45],[968,224,26,27],[1740,225,23,29],[1695,240,28,23],[853,245,9,9],[848,254,50,56],[1381,256,40,41],[1707,262,6,5],[108,266,25,25],[987,268,19,20],[1174,275,52,46],[555,279,91,100],[1593,279,91,100],[819,283,18,38],[1004,289,18,20],[769,295,39,39],[1166,307,8,9],[822,331,45,72],[1200,331,31,17],[96,333,15,16],[1134,333,15,15],[10,342,60,61],[1036,342,81,128],[877,346,39,39],[1888,356,7,6],[1915,357,5,10],[1866,364,36,38],[1916,369,4,7],[255,402,91,121],[389,403,5,5],[1241,410,142,113],[618,428,15,15],[541,436,54,56],[203,451,43,64],[879,480,46,44],[763,498,82,103],[9,502,10,10],[716,535,40,59],[562,537,46,47],[1600,537,46,47],[1776,538,25,25],[1316,541,35,39],[1697,549,8,9],[1698,557,20,21],[386,562,43,40],[1664,563,16,16],[1365,565,59,80],[1773,576,16,15],[342,596,43,49],[997,598,26,25],[1685,607,40,37],[1035,611,49,47],[1172,613,53,51],[960,617,20,20],[1374,619,5,5],[1726,619,85,68],[553,633,59,60],[1591,633,59,60],[939,635,20,19],[447,645,77,66],[1419,645,143,88],[1003,646,30,29],[842,667,40,45],[1217,674,7,8],[1851,691,38,37],[1034,701,55,55],[1221,705,6,6],[888,712,120,154],[585,721,28,26],[97,725,66,77],[1132,728,9,9],[508,732,9,9],[509,741,21,21],[476,747,16,15],[176,748,43,45],[585,759,15,15],[1135,759,43,43],[980,772,50,47],[497,790,39,37],[0,797,37,51],[538,803,121,68],[440,818,32,32],[1610,828,83,92],[1339,840,46,33],[28,858,8,7],[957,861,5,5],[949,863,10,6],[230,865,72,51],[878,866,21,20],[942,870,27,31],[1916,870,4,8],[663,875,37,37],[1192,877,15,15],[938,884,5,6],[1115,886,57,56],[1903,886,17,39],[32,888,7,6],[1879,899,6,5],[1859,905,32,36],[129,929,43,32],[1167,929,43,32],[671,935,68,85],[1709,935,68,85],[590,947,38,39],[1628,947,38,39],[1338,948,81,102],[1653,949,5,5],[68,951,42,40],[1106,951,42,40],[1290,985,40,59],[173,997,8,8],[1211,997,8,8],[422,1012,83,68],[960,1012,43,39],[131,1032,59,48],[725,1032,52,48],[1169,1032,59,48],[1773,1032,42,45],[192,1049,20,18],[1231,1049,19,18],[4,1060,14,15],[1618,1063,40,17],[188,1065,5,5],[1226,1065,5,5]].map(b => ({ b, sp: 0.5 + Math.random() * 1.6, ph: Math.random() * 6.28 }));
+  function sparklePath(x, y, R) {
+    const c = R * 0.16;
+    ctx.beginPath(); ctx.moveTo(x, y - R);
+    ctx.quadraticCurveTo(x + c, y - c, x + R, y); ctx.quadraticCurveTo(x + c, y + c, x, y + R);
+    ctx.quadraticCurveTo(x - c, y + c, x - R, y); ctx.quadraticCurveTo(x - c, y - c, x, y - R); ctx.closePath();
+  }
+  let meteors = [], nextMeteor = performance.now() + 1200;
+  function resize() {
+    const dpr = Math.min(2, devicePixelRatio || 1);
+    W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  addEventListener("resize", resize); resize();
+  let mx = 0, my = 0, pmx = 0, pmy = 0;
+  addEventListener("pointermove", e => { mx = e.clientX / W - 0.5; my = e.clientY / H - 0.5; });
+
+  const track2 = track;
+  function frame(t) {
+    const s = t / 1000;
+    cam += (target - cam) * (reduce ? 1 : 0.075);
+    if (Math.abs(target - cam) < 0.0005) cam = target;
+    pmx += (mx - pmx) * 0.05; pmy += (my - pmy) * 0.05;
+    setCurrent(Math.round(target));
+    track2.style.transform = `translate3d(${-cam * 100}%,0,0)`;
+    panels.forEach((p, j) => p.classList.toggle("near", Math.abs(j - cam) < 1));
+    const bp = cam * 0.125;
+    bigLit.setAttribute("d", bp < 0.002 ? "" : litPath(100, 100, 96, bp));
+    bigMoon.style.transform = `translate3d(${-cam * W * 0.05 + pmx * -10}px, ${pmy * -8}px, 0)`;
+
+    ctx.clearRect(0, 0, W, H);
+    if (skyImg.complete && skyImg.naturalWidth) {
+      const IW = 1920, IH = 1080, sc = Math.max(W / IW, H / IH) * 1.12;
+      const extraX = IW * sc - W, extraY = IH * sc - H;
+      const ox = -extraX * (0.5 + (cam / (SECTIONS.length - 1) - 0.5) * 0.9) - pmx * 14, oy = -extraY / 2 - pmy * 10;
+      SKY.forEach(st => {
+        const [x0, y0, w, hh] = st.b;
+        const tw = reduce ? 1 : 0.55 + 0.45 * Math.sin(s * st.sp + st.ph);
+        const flare = reduce ? 0 : Math.pow(Math.max(0, Math.sin(s * st.sp * 0.37 + st.ph * 2)), 12);
+        const k = 1 + flare * 0.35, dw = w * sc * k * 0.55, dh = hh * sc * k * 0.55;
+        const cx = ox + (x0 + w / 2) * sc, cy = oy + (y0 + hh / 2) * sc;
+        ctx.globalAlpha = Math.min(1, tw + flare * 0.4) * 0.85;
+        ctx.drawImage(skyImg, x0, y0, w, hh, cx - dw / 2, cy - dh / 2, dw, dh);
+      });
+    }
+    if (!reduce) {
+      if (t > nextMeteor && meteors.length < 3) {
+        const sp = rnd(7, 12);
+        meteors.push({ x: rnd(W * 0.25, W * 1.1), y: rnd(-20, H * 0.4), vx: -sp, vy: sp * rnd(0.3, 0.55), life: 1, len: rnd(12, 20), size: rnd(4, 7) });
+        nextMeteor = t + rnd(1400, 3800);
+      }
+      meteors = meteors.filter(m => {
+        m.x += m.vx; m.y += m.vy; m.life -= 0.014;
+        const tx = m.x - m.vx * m.len, ty = m.y - m.vy * m.len;
+        const g = ctx.createLinearGradient(m.x, m.y, tx, ty);
+        g.addColorStop(0, "rgba(244,181,80,.85)"); g.addColorStop(1, "rgba(244,181,80,0)");
+        ctx.globalAlpha = Math.max(0, Math.min(1, m.life * 1.6)); ctx.strokeStyle = g; ctx.lineWidth = 2; ctx.lineCap = "round";
+        ctx.beginPath(); ctx.moveTo(m.x, m.y); ctx.lineTo(tx, ty); ctx.stroke();
+        ctx.fillStyle = C.gold; sparklePath(m.x, m.y, m.size); ctx.fill();
+        return m.life > 0 && m.x > -200 && m.y < H + 200;
+      });
+    }
+    ctx.globalAlpha = 1;
+    kittyFrame(t);
+    requestAnimationFrame(frame);
+  }
+
+  // Kitty traveler
+  const kitty = $("#kitty"), fx = $("#fx"), fctx = fx.getContext("2d");
+  const K = { at: 0, x: null, y: null, from: null, to: 0, t0: 0, dur: 0, flying: false, face: 1, lastEmit: 0 };
+  let dust = [];
+  function sizeFx() { const d = Math.min(2, devicePixelRatio || 1); fx.width = innerWidth * d; fx.height = innerHeight * d; fctx.setTransform(d, 0, 0, d, 0, 0); }
+  addEventListener("resize", sizeFx); sizeFx();
+  function anchor(i) {
+    const m = document.querySelectorAll(".phase .moon-img")[i]; if (!m) return { x: 0, y: 0 };
+    const r = m.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height * 0.22 };
+  }
+  function flyTo(i) {
+    if (K.x == null) { K.at = i; return; }
+    if (i === K.at && !K.flying) return;
+    if (reduce) { K.at = i; K.flying = false; return; }
+    K.from = { x: K.x, y: K.y }; K.to = i; K.t0 = performance.now();
+    K.dur = Math.min(2600, 1300 + 260 * Math.abs(i - (K.flying ? K.to : K.at)));
+    K.face = anchor(i).x >= K.x ? 1 : -1; K.flying = true;
+  }
+  const ease = p => 0.5 - Math.cos(p * Math.PI) / 2;
+  function kittyFrame(t) {
+    const s = t / 1000, kw = kitty.offsetWidth, kh = kitty.offsetHeight;
+    let x, y, rot = 0;
+    if (K.flying) {
+      const p = Math.min(1, (t - K.t0) / K.dur), e = ease(p), A = K.from, B = anchor(K.to);
+      x = A.x + (B.x - A.x) * e;
+      y = A.y + (B.y - A.y) * e - Math.sin(p * Math.PI) * 14 + Math.sin(p * Math.PI * 4) * 5 * Math.sin(p * Math.PI);
+      rot = K.face * 8 * Math.sin(p * Math.PI) + Math.sin(p * Math.PI * 3) * 5;
+      if (t - K.lastEmit > 40) { K.lastEmit = t; dust.push({ x: x - K.face * kw * 0.3, y: y - kh * 0.35 + (Math.random() - .5) * 18, r: 1.5 + Math.random() * 3, life: 1, vx: -K.face * Math.random() * .3, vy: -.15 - Math.random() * .35 }); }
+      if (p >= 1) { K.flying = false; K.at = K.to; }
+    } else {
+      const a = anchor(K.at); x = a.x; y = a.y + (reduce ? 0 : Math.sin(s * 2) * 5); rot = reduce ? 0 : Math.sin(s * 1.3) * 5;
+    }
+    K.x = x; K.y = y;
+    kitty.style.transform = `translate3d(${x - kw / 2}px, ${y - kh * 0.9}px, 0) rotate(${rot}deg) scaleX(${K.face})`;
+    fctx.clearRect(0, 0, innerWidth, innerHeight);
+    dust = dust.filter(d => {
+      d.x += d.vx; d.y += d.vy; d.life -= 0.016;
+      const R = d.r * (0.6 + d.life * 0.6), c = R * 0.18;
+      fctx.globalAlpha = Math.max(0, d.life) * 0.9; fctx.fillStyle = C.lav;
+      fctx.beginPath(); fctx.moveTo(d.x, d.y - R);
+      fctx.quadraticCurveTo(d.x + c, d.y - c, d.x + R, d.y); fctx.quadraticCurveTo(d.x + c, d.y + c, d.x, d.y + R);
+      fctx.quadraticCurveTo(d.x - c, d.y + c, d.x - R, d.y); fctx.quadraticCurveTo(d.x - c, d.y - c, d.x, d.y - R); fctx.fill();
+      return d.life > 0;
+    });
+    fctx.globalAlpha = 1;
+  }
+
+  // ---------- Start ----------
+  (async () => {
+    CONTENT = await loadContent();
+    renderAll();
+    // deep links: #section or #page-id
+    const hash = decodeURIComponent(location.hash.slice(1));
+    let idx = SECTIONS.findIndex(s => s.id === hash);
+    const page = hash && document.getElementById(hash);
+    if (page && page.classList.contains("cs-detail")) { idx = panels.indexOf(page.closest(".panel")); showDetail(hash); }
+    if (idx > 0) { target = cam = idx; K.at = idx; current = -1; setCurrent(idx); }
+    try { const pw = sessionStorage.getItem("lunar-pw"); if (pw != null && mode === "live") { password = pw; startEditing(); } } catch (e) {}
+    requestAnimationFrame(frame);
+  })();
+})();
+
+</script>
+</body>
+</html>
